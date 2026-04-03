@@ -44,25 +44,22 @@ export default function Home() {
           <ScrollReveal className={styles.heroVisual} direction="right">
             <div className={styles.heroImageGrid}>
               <Image
-                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=800&fit=crop"
-                alt="Delivery truck on road"
+                src="/images/4-ton.png"
+                alt="4-Ton delivery truck"
                 width={600}
                 height={800}
-                loading="lazy"
               />
               <Image
-                src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400&h=380&fit=crop"
-                alt="Warehouse logistics"
+                src="/images/bakkie.png"
+                alt="Bakkie for small loads"
                 width={400}
                 height={380}
-                loading="lazy"
               />
               <Image
-                src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&h=380&fit=crop"
-                alt="Delivery driver"
+                src="/images/panel-van.png"
+                alt="Panel van for furniture"
                 width={400}
                 height={380}
-                loading="lazy"
               />
             </div>
           </ScrollReveal>
@@ -82,7 +79,7 @@ export default function Home() {
             <ScrollReveal className={styles.vehicleCard} delay={0.1}>
               <Image
                 className={styles.vehicleImg}
-                src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&h=240&fit=crop"
+                src="/images/bakkie.png"
                 alt="Motorbike courier"
                 width={400}
                 height={240}
@@ -148,7 +145,7 @@ export default function Home() {
             <ScrollReveal className={styles.vehicleCard} delay={0.5}>
               <Image
                 className={styles.vehicleImg}
-                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=240&fit=crop"
+                src="/images/8-ton.png"
                 alt="Flatbed truck"
                 width={400}
                 height={240}
@@ -233,7 +230,7 @@ export default function Home() {
           </ScrollReveal>
           <ScrollReveal className={styles.coverageMap} direction="right">
             <Image
-              src="https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=600&h=600&fit=crop"
+              src="/images/4-ton.png"
               alt="Cape Town aerial view"
               width={600}
               height={600}
@@ -265,7 +262,7 @@ export default function Home() {
             {/* Client CTA */}
             <ScrollReveal className={`${styles.ctaCard} ${styles.clientCta}`} delay={0.1}>
               <Image
-                src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&h=200&fit=crop"
+                src="/images/panel-van.png"
                 alt="Delivery in progress"
                 width={600}
                 height={200}
@@ -300,7 +297,7 @@ export default function Home() {
             {/* Driver CTA */}
             <ScrollReveal className={`${styles.ctaCard} ${styles.driverCta}`} delay={0.2}>
               <Image
-                src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&h=200&fit=crop"
+                src="/images/8-ton.png"
                 alt="Truck fleet"
                 width={600}
                 height={200}

@@ -1,0 +1,471 @@
+================================================================================
+CAPELOAD LOGISTICS — ON-PAGE SEO RECOMMENDATIONS
+================================================================================
+Generated: 2026-04-03
+================================================================================
+
+These recommendations are based on analysis of the current capeload.co.za
+codebase (src/app/page.tsx, layout.tsx) and competitor keyword strategies
+from Droppa, Picup, Lalamove, The Courier Guy, RAM, and others.
+
+================================================================================
+SECTION 1: IMMEDIATE FIXES TO EXISTING PAGES
+================================================================================
+
+--- 1.1 layout.tsx (Root Layout) ---
+
+CURRENT:
+  title: "CapeLoad Logistics | Your Load, Our Road"
+  description: "From bikes to trucks, CapeLoad connects you with
+    verified drivers and the right vehicle for every job in the
+    Western Cape."
+  keywords: "logistics, delivery, Cape Town, Western Cape, courier,
+    moving, truck hire"
+
+RECOMMENDED CHANGES:
+
+  title: "Delivery & Logistics Cape Town | Bakkie, Van & Truck Hire | CapeLoad"
+
+  description: "Book same-day delivery in Cape Town. Motorbikes to
+    flatbed trucks, verified drivers, instant quotes. Bakkie hire,
+    courier, moving & logistics across the Western Cape."
+
+  keywords: "delivery cape town, logistics cape town, bakkie hire
+    cape town, courier cape town, same day delivery cape town, moving
+    company cape town, truck hire cape town, delivery service western
+    cape, on-demand delivery south africa, panel van hire cape town,
+    motorbike courier cape town, furniture removal cape town, transport
+    cape town, delivery quote cape town, logistics platform south africa"
+
+WHY: The current title leads with the brand name, which has no search
+volume yet. Lead with the highest-volume keyword ("Delivery & Logistics
+Cape Town") and put the brand at the end. The description should be
+action-oriented and include key vehicle types.
+
+ADDITIONAL ROOT LAYOUT ADDITIONS:
+  - Add viewport meta tag
+  - Add robots meta tag: "index, follow"
+  - Add canonical URL: "https://capeload.co.za"
+  - Add Open Graph tags (og:title, og:description, og:image, og:url)
+  - Add Twitter Card tags
+  - Add JSON-LD structured data for Organization
+  - Add JSON-LD structured data for LocalBusiness
+  - Add Google verification meta tag (when ready)
+  - Add Bing verification meta tag
+  - Add lang="en-ZA" instead of lang="en"
+
+--- 1.2 Homepage (page.tsx) ---
+
+CURRENT ISSUES AND FIXES:
+
+Issue 1: Hero section H1 is "Your load, our road."
+  - This is a brand tagline, not SEO-optimized.
+  - KEEP IT as the visual H1 but add a hidden SEO subtitle or change
+    the structure so the actual H1 is more descriptive:
+
+  RECOMMENDED: Keep "Your load, our road." as the visible headline
+  but wrap it in a <span> within an H1 that includes keyword context:
+
+  <h1>
+    <span className={styles.highlight}>Your load, our road.</span>
+    <span className={styles.seoSubtitle}>
+      Delivery & logistics across Cape Town
+    </span>
+  </h1>
+
+  The seoSubtitle can be styled smaller or as a tagline. This gives
+  Google the keyword context while keeping the visual brand intact.
+
+Issue 2: Hero paragraph text is good but could be stronger.
+  CURRENT: "From a single parcel to a full house move -- CapeLoad
+    connects you with verified drivers and the right vehicle for every
+    job. Get an instant quote in under 60 seconds."
+
+  RECOMMENDED: "From a motorbike courier to a full house move --
+    CapeLoad connects you with verified drivers and the right vehicle
+    for same-day delivery across Cape Town and the Western Cape. Get
+    an instant quote in under 60 seconds."
+
+  WHY: Adds "motorbike courier", "same-day delivery", "Cape Town",
+  and "Western Cape" naturally.
+
+Issue 3: Vehicle section heading
+  CURRENT: "The right vehicle for every load"
+  RECOMMENDED: "The right vehicle for every load in Cape Town"
+  WHY: Adds location context for search engines.
+
+Issue 4: Vehicle card descriptions lack keywords
+  CURRENT: "Motorbike - Courier runs & small parcels"
+  RECOMMENDED: "Motorbike Courier - Fast parcel & document delivery"
+
+  CURRENT: "Bakkie / LDV - Small loads & quick trips"
+  RECOMMENDED: "Bakkie / LDV - Small loads, furniture & appliances"
+
+  CURRENT: "Panel Van - Furniture, boxes & goods"
+  RECOMMENDED: "Panel Van - Enclosed delivery for furniture & goods"
+
+  CURRENT: "4-Ton Truck - Medium hauls & moves"
+  RECOMMENDED: "4-Ton Truck - House moves & medium hauls"
+
+  CURRENT: "8-Ton Truck - Large hauls & bulk loads"
+  RECOMMENDED: "8-Ton Truck - Large moves & commercial loads"
+
+  CURRENT: "Flatbed / Super - Industrial & oversize loads"
+  RECOMMENDED: "Flatbed / Super-Link - Industrial & construction loads"
+
+Issue 5: "How It Works" section needs keyword enrichment
+  CURRENT: "Three steps to move your load"
+  RECOMMENDED: "Three steps to book delivery in Cape Town"
+
+  Step descriptions should mention "Cape Town", "same day", "delivery",
+  "courier", etc. naturally.
+
+Issue 6: Coverage section heading
+  CURRENT: "Western Cape & expanding nationally"
+  RECOMMENDED: "Delivery coverage: Western Cape & expanding nationally"
+  WHY: Adds "delivery coverage" as a searchable phrase.
+
+Issue 7: Coverage area descriptions should include more suburbs
+  CURRENT: "CBD, Northern & Southern suburbs, Cape Flats, Helderberg"
+  RECOMMENDED: "CBD, Bellville, Durbanville, Claremont, Blouberg,
+    Mitchells Plain, Khayelitsha, Helderberg & all Cape Town suburbs"
+  WHY: Each suburb name is a keyword target. Google surfaces these
+  in local searches.
+
+Issue 8: CTA section
+  CURRENT: "Ready to move?"
+  RECOMMENDED: "Ready to book your delivery?"
+  WHY: "book your delivery" is a transactional keyword.
+
+Issue 9: Footer text
+  CURRENT: "Your load, our road. From bikes to trucks, we move across
+    the Western Cape and beyond. Built by Axious Creative."
+  RECOMMENDED: "CapeLoad Logistics delivers across Cape Town and the
+    Western Cape. Same-day courier, bakkie hire, furniture removal,
+    and truck transport. From motorbikes to flatbed trucks, your load
+    is our road."
+  WHY: Footer text is crawled by Google and should contain primary
+  keywords. The "Built by Axious Creative" can remain as a separate
+  small credit line.
+
+Issue 10: Alt text for images is generic
+  CURRENT: "Delivery truck on road", "Warehouse logistics"
+  RECOMMENDED: More specific and keyword-rich:
+    "CapeLoad delivery truck Cape Town"
+    "Logistics warehouse Western Cape"
+    "CapeLoad motorbike courier Cape Town"
+    "Bakkie hire with driver Cape Town"
+    "Panel van delivery service Cape Town"
+    "4-ton truck for hire Cape Town"
+    "8-ton truck moving service"
+    "Flatbed truck industrial delivery Cape Town"
+
+================================================================================
+SECTION 2: TECHNICAL SEO RECOMMENDATIONS
+================================================================================
+
+2.1 ADD STRUCTURED DATA (JSON-LD)
+
+Add the following JSON-LD to the homepage <head>:
+
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "CapeLoad Logistics",
+  "description": "Multi-vehicle delivery and logistics platform in Cape Town",
+  "url": "https://capeload.co.za",
+  "logo": "https://capeload.co.za/images/logo-light.svg",
+  "image": "https://capeload.co.za/images/og-image.jpg",
+  "telephone": "+27-XXX-XXX-XXXX",
+  "email": "hello@capeload.co.za",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Cape Town",
+    "addressRegion": "Western Cape",
+    "addressCountry": "ZA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -33.9249,
+    "longitude": 18.4241
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Cape Town" },
+    { "@type": "State", "name": "Western Cape" }
+  ],
+  "priceRange": "R80 - R5000+",
+  "openingHours": "Mo-Su 00:00-23:59",
+  "sameAs": [
+    "https://www.facebook.com/capeload",
+    "https://www.instagram.com/capeload"
+  ]
+}
+
+Add FAQPage schema to FAQ page.
+Add HowTo schema to How It Works section.
+Add Service schema to each service/vehicle page.
+Add BreadcrumbList schema to all inner pages.
+
+2.2 TECHNICAL CHECKLIST
+
+[ ] Create /sitemap.xml (Next.js can generate this automatically)
+[ ] Create /robots.txt with:
+      User-agent: *
+      Allow: /
+      Disallow: /portal/
+      Disallow: /api/
+      Sitemap: https://capeload.co.za/sitemap.xml
+
+[ ] Add canonical URLs to every page
+[ ] Implement hreflang tag: <link rel="alternate" hreflang="en-ZA">
+[ ] Enable gzip/brotli compression
+[ ] Implement lazy loading on all images (already using Next.js Image)
+[ ] Add proper width/height to all images (already done)
+[ ] Ensure all pages return 200 status
+[ ] Set up 301 redirects for any URL changes
+[ ] Implement breadcrumb navigation on all inner pages
+[ ] Add next/prev pagination for blog pages
+[ ] Create a 404 page with helpful links
+[ ] Set up Google Search Console
+[ ] Set up Bing Webmaster Tools
+[ ] Submit sitemap to both
+[ ] Set up Google Analytics 4
+[ ] Implement Core Web Vitals monitoring
+
+2.3 PAGE SPEED OPTIMIZATIONS
+
+[ ] Serve images in WebP format (Next.js Image does this)
+[ ] Preload critical fonts (Inter is already loaded via next/font)
+[ ] Minimize CSS (page.module.css may have unused styles)
+[ ] Implement critical CSS inlining
+[ ] Use next/dynamic for below-fold components
+[ ] Ensure LCP (Largest Contentful Paint) < 2.5s
+[ ] Ensure FID (First Input Delay) < 100ms
+[ ] Ensure CLS (Cumulative Layout Shift) < 0.1
+
+2.4 URL STRUCTURE RULES
+
+- All URLs lowercase
+- Use hyphens, not underscores
+- No trailing slashes (or consistently use them)
+- Keep URLs short and descriptive
+- Include primary keyword in URL
+- Example: /services/bakkie-hire (not /services/bakkie_hire_with_driver)
+
+================================================================================
+SECTION 3: CONTENT STRATEGY RECOMMENDATIONS
+================================================================================
+
+3.1 INTERNAL LINKING STRATEGY
+
+Every page should link to:
+  - At least 2-3 related service pages
+  - The booking page (CTA)
+  - The relevant vehicle page
+  - The relevant area page
+  - The FAQ page (for informational queries)
+
+Anchor text should be keyword-rich, not generic:
+  BAD:  "Click here" / "Learn more"
+  GOOD: "Book a bakkie in Cape Town" / "See our delivery rates"
+        "Compare delivery services" / "View our fleet"
+
+3.2 CONTENT LENGTH TARGETS
+
+  Homepage:           800-1200 words (currently ~400, needs expansion)
+  Service pages:      1000-1500 words each
+  Vehicle pages:      800-1200 words each
+  Area pages:         600-1000 words each
+  Route pages:        600-800 words each
+  Blog posts:         1500-2500 words each
+  FAQ page:           2000-3000 words (20-30 questions)
+  Comparison pages:   1200-1800 words each
+
+3.3 CONTENT SECTIONS TO ADD TO HOMEPAGE
+
+Add below the current CTA section (before footer):
+
+A) "Trusted by businesses across Cape Town" — Social proof section
+   with client logos, review count, star rating.
+
+B) "Popular services" — Text-rich section listing top services with
+   short descriptions and internal links.
+
+C) "Serving every corner of Cape Town" — Text section mentioning
+   major suburbs by name (creates keyword density for location terms).
+
+D) "Frequently asked questions" — 5-8 FAQs with schema markup
+   (e.g., "How much does delivery cost?", "How fast is same-day
+   delivery?", "What vehicles are available?").
+
+E) "Latest from the blog" — 3 latest blog posts (keeps homepage
+   fresh for crawlers).
+
+3.4 KEYWORD DENSITY GUIDELINES
+
+Target 1-2% keyword density for primary terms on each page.
+For the homepage, ensure these terms appear at least once:
+  - "delivery" (5-8 times)
+  - "Cape Town" (4-6 times)
+  - "courier" (2-3 times)
+  - "bakkie hire" (2-3 times)
+  - "logistics" (2-3 times)
+  - "Western Cape" (2-3 times)
+  - "same day" (1-2 times)
+  - "verified drivers" (1-2 times)
+  - "instant quote" (1-2 times)
+  - "moving" (1-2 times)
+  - "truck hire" (1-2 times)
+
+Do NOT stuff keywords. They must flow naturally in sentences.
+
+3.5 IMAGE SEO
+
+Every image should have:
+  - Descriptive filename: bakkie-hire-cape-town.webp
+  - Alt text with keywords: "Bakkie hire with driver in Cape Town"
+  - Title attribute (optional but helpful)
+  - Appropriate file size (under 200KB)
+  - WebP format with JPEG fallback
+
+Currently, images are from Unsplash. For SEO:
+  - Replace with original photos when possible
+  - Use real CapeLoad branded vehicle photos
+  - Use real Cape Town locations (Table Mountain, CBD, etc.)
+  - Name files descriptively, not with Unsplash IDs
+
+================================================================================
+SECTION 4: OFF-PAGE SEO RECOMMENDATIONS
+================================================================================
+
+4.1 GOOGLE BUSINESS PROFILE
+
+[ ] Create Google Business Profile for "CapeLoad Logistics"
+[ ] Set category: "Delivery Service" (primary), "Logistics Service",
+    "Courier Service", "Moving Company" (additional)
+[ ] Add all service areas
+[ ] Add photos
+[ ] Add business description with keywords
+[ ] Enable messaging
+[ ] Post weekly updates
+[ ] Collect and respond to reviews
+
+4.2 DIRECTORY LISTINGS (South Africa specific)
+
+[ ] Yellow Pages SA (yellowpages.co.za)
+[ ] Brabys (brabys.com)
+[ ] Yalwa South Africa
+[ ] Hotfrog South Africa
+[ ] Cylex South Africa
+[ ] SA Business Directory
+[ ] Find-Us-Here
+[ ] Snupit (snupit.co.za)
+[ ] Gumtree Services
+[ ] Facebook Business Page
+[ ] LinkedIn Company Page
+[ ] HelloPeter listing
+
+Ensure NAP (Name, Address, Phone) is consistent across ALL listings.
+
+4.3 LINK BUILDING OPPORTUNITIES
+
+- Guest posts on SA logistics blogs
+- Partnerships with ecommerce platforms
+- University partnership for student moves
+- Sponsor local Cape Town events
+- Appear in "best delivery services" round-up articles
+- Create shareable tools (cost calculator, moving checklist)
+- PR for launch in local Cape Town media
+
+4.4 SOCIAL SIGNALS
+
+- Share all blog posts on Facebook, Instagram, LinkedIn
+- Create short-form video content for TikTok/Reels (delivery footage)
+- Engage in local Cape Town community groups on Facebook
+- Share customer testimonials (with permission)
+- Post driver spotlights and fleet highlights
+
+================================================================================
+SECTION 5: COMPETITOR GAPS TO EXPLOIT
+================================================================================
+
+Based on analysis of listed competitors:
+
+5.1 DROPPA gaps: Strong nationally but weaker on Cape Town local SEO.
+    CapeLoad should dominate suburb-level keywords.
+
+5.2 PICUP gaps: Focused on enterprise/API. CapeLoad can win individual
+    consumer searches (bakkie hire, single item moves).
+
+5.3 LALAMOVE gaps: Relatively new in SA market. CapeLoad can position
+    as the local Cape Town alternative.
+
+5.4 THE COURIER GUY gaps: Strong brand but expensive for large items.
+    CapeLoad should target "cheap bakkie hire" and "affordable movers".
+
+5.5 MR DELIVERY (MrD) gaps: Primarily food delivery. CapeLoad can
+    capture "goods delivery" and "furniture delivery" searches that
+    MrD doesn't serve.
+
+5.6 UBER CONNECT gaps: Limited vehicle types. CapeLoad should emphasize
+    multi-vehicle (6+ types) advantage in all comparisons.
+
+5.7 GENERAL gap: None of the competitors have strong suburb-level
+    landing pages. Building 15-20 area pages will give CapeLoad
+    a massive local SEO advantage in Cape Town.
+
+5.8 GENERAL gap: Few competitors have comparison pages. Being first
+    to create "CapeLoad vs X" pages means CapeLoad controls the
+    narrative when people search for alternatives.
+
+5.9 GENERAL gap: Afrikaans keywords are almost completely ignored by
+    all competitors. Creating a few Afrikaans-friendly pages or
+    blog posts can capture an untapped audience.
+
+5.10 GENERAL gap: Driver acquisition keywords are underserved.
+     Content targeting "earn with your bakkie" and "delivery driver
+     jobs cape town" has low competition but high intent.
+
+================================================================================
+SECTION 6: PRIORITY ACTION PLAN
+================================================================================
+
+PHASE 1 (Week 1-2): Foundation
+  [ ] Fix homepage meta tags per recommendations above
+  [ ] Fix homepage content per keyword recommendations
+  [ ] Add JSON-LD structured data
+  [ ] Create robots.txt and sitemap.xml
+  [ ] Set up Google Search Console and Analytics
+  [ ] Create Google Business Profile
+  [ ] Change html lang to "en-ZA"
+
+PHASE 2 (Week 3-4): Service & Vehicle Pages
+  [ ] Create /services overview page
+  [ ] Create 6 vehicle detail pages
+  [ ] Create key service pages (same-day, bakkie hire, furniture removal)
+  [ ] Add unique meta tags to all new pages
+  [ ] Internal link all pages together
+
+PHASE 3 (Week 5-8): Local SEO
+  [ ] Create /areas overview page
+  [ ] Create 10-15 suburb/area landing pages
+  [ ] Create 5-7 inter-city route pages
+  [ ] Submit to SA business directories
+  [ ] Start collecting Google reviews
+
+PHASE 4 (Week 9-12): Content & Comparison
+  [ ] Create /faq page with 20+ questions
+  [ ] Create /how-it-works standalone page
+  [ ] Create /about page
+  [ ] Create /pricing page
+  [ ] Create 5 comparison pages (vs top competitors)
+  [ ] Launch blog with 4 pillar articles
+
+PHASE 5 (Ongoing): Growth
+  [ ] Publish 2-4 blog posts per month
+  [ ] Create remaining area pages
+  [ ] Build delivery cost calculator tool
+  [ ] Pursue link building opportunities
+  [ ] Monitor rankings and adjust keywords
+  [ ] A/B test meta descriptions for CTR
+  [ ] Expand to Afrikaans content

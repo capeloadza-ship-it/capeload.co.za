@@ -1,0 +1,205 @@
+================================================================================
+CAPELOAD LOGISTICS — RECOMMENDED SITEMAP STRUCTURE
+================================================================================
+Generated: 2026-04-03
+================================================================================
+
+This sitemap is designed for maximum SEO coverage. Each URL represents a
+page that should exist on capeload.co.za to capture organic search traffic.
+
+Priority levels: 1.0 (highest) to 0.3 (lowest)
+
+================================================================================
+TIER 1: CORE PAGES (Already exist or partially exist)
+================================================================================
+
+/                                   [1.0] Homepage
+/booking                            [1.0] Book a delivery / Get a quote
+/driver-signup                      [0.9] Driver & vehicle registration
+/portal/client                      [0.7] Client dashboard (login)
+/portal/driver                      [0.7] Driver dashboard (login)
+/portal/admin                       [0.5] Admin panel (noindex)
+
+================================================================================
+TIER 2: SERVICE PAGES (High priority — create these)
+================================================================================
+
+/services                           [0.9] All services overview
+/services/same-day-delivery         [0.9] Same day delivery landing page
+/services/courier                   [0.9] Courier service landing page
+/services/furniture-removal         [0.9] Furniture removal / moving service
+/services/bakkie-hire               [0.9] Bakkie hire with driver
+/services/truck-hire                [0.9] Truck hire with driver
+/services/long-distance             [0.8] Long distance / inter-city delivery
+/services/ecommerce-delivery        [0.8] Ecommerce & online store delivery
+/services/business-delivery         [0.8] B2B / corporate delivery solutions
+/services/rubble-removal            [0.7] Rubble & garden refuse removal
+/services/construction-delivery     [0.7] Building material delivery
+/services/student-moving            [0.7] Student / university moves
+/services/office-relocation         [0.7] Office moves
+/services/single-item-delivery      [0.7] Single item / one-piece delivery
+
+================================================================================
+TIER 3: VEHICLE PAGES (High priority — create these)
+================================================================================
+
+/vehicles                           [0.9] All vehicles overview
+/vehicles/motorbike                 [0.8] Motorbike courier page
+/vehicles/bakkie                    [0.9] Bakkie / LDV page
+/vehicles/panel-van                 [0.8] Panel van page
+/vehicles/4-ton-truck               [0.8] 4-ton truck page
+/vehicles/8-ton-truck               [0.8] 8-ton truck page
+/vehicles/flatbed                   [0.7] Flatbed / super link page
+
+================================================================================
+TIER 4: AREA / LOCATION PAGES (High priority for local SEO)
+================================================================================
+
+/areas                              [0.8] Full coverage map / all areas
+/areas/cape-town                    [0.9] Cape Town metro hub page
+/areas/cape-town-cbd                [0.7] Cape Town CBD & City Bowl
+/areas/southern-suburbs             [0.7] Southern Suburbs hub
+/areas/northern-suburbs             [0.7] Northern Suburbs hub
+/areas/atlantic-seaboard            [0.7] Atlantic Seaboard & Blouberg
+/areas/cape-flats                   [0.7] Cape Flats hub
+/areas/helderberg                   [0.7] Helderberg / Somerset West area
+/areas/stellenbosch                 [0.7] Stellenbosch & surrounds
+/areas/paarl                        [0.7] Paarl & Wellington
+/areas/worcester                    [0.6] Worcester & Breede Valley
+/areas/west-coast                   [0.6] West Coast
+/areas/garden-route                 [0.6] Garden Route
+/areas/overberg                     [0.6] Overberg / Hermanus
+/areas/winelands                    [0.7] Cape Winelands
+
+--- Inter-city route pages ---
+/routes/cape-town-to-johannesburg   [0.8] CT to JHB route page
+/routes/cape-town-to-durban         [0.7] CT to Durban route page
+/routes/cape-town-to-pretoria       [0.7] CT to Pretoria route page
+/routes/cape-town-to-port-elizabeth [0.7] CT to PE route page
+/routes/cape-town-to-bloemfontein   [0.6] CT to Bloem route page
+/routes/cape-town-to-east-london    [0.6] CT to East London route page
+/routes/cape-town-to-george         [0.6] CT to George route page
+
+================================================================================
+TIER 5: INFORMATION PAGES (Medium priority)
+================================================================================
+
+/how-it-works                       [0.8] How CapeLoad works (step by step)
+/about                              [0.7] About CapeLoad Logistics
+/pricing                            [0.8] Pricing & rates overview
+/faq                                [0.8] Frequently asked questions
+/contact                            [0.7] Contact us page
+/reviews                            [0.7] Customer reviews / testimonials
+
+================================================================================
+TIER 6: COMPARISON / VS PAGES (Medium priority — blog or landing)
+================================================================================
+
+/compare                            [0.6] Delivery service comparison hub
+/compare/capeload-vs-droppa         [0.6] CapeLoad vs Droppa
+/compare/capeload-vs-lalamove       [0.6] CapeLoad vs Lalamove
+/compare/capeload-vs-picup          [0.6] CapeLoad vs Picup
+/compare/capeload-vs-uber-connect   [0.6] CapeLoad vs Uber Connect
+/compare/capeload-vs-the-courier-guy [0.6] CapeLoad vs The Courier Guy
+/compare/capeload-vs-mr-delivery    [0.5] CapeLoad vs MrD
+/compare/capeload-vs-ram-couriers   [0.5] CapeLoad vs RAM
+/compare/capeload-vs-dawn-wing      [0.5] CapeLoad vs Dawn Wing
+/compare/capeload-vs-fastway        [0.5] CapeLoad vs Fastway
+/compare/capeload-vs-postnet        [0.5] CapeLoad vs PostNet
+
+================================================================================
+TIER 7: BLOG / CONTENT MARKETING (Medium priority — ongoing)
+================================================================================
+
+/blog                               [0.7] Blog index page
+
+--- Pillar content ---
+/blog/complete-guide-delivery-cape-town         [0.7]
+/blog/complete-guide-bakkie-hire-cape-town       [0.7]
+/blog/complete-guide-moving-cape-town            [0.7]
+/blog/best-courier-services-cape-town-2026       [0.7]
+/blog/best-delivery-apps-south-africa-2026       [0.7]
+
+--- How-to guides ---
+/blog/how-to-move-cheaply-cape-town              [0.6]
+/blog/how-to-pack-for-a-move                     [0.6]
+/blog/moving-checklist-south-africa              [0.6]
+/blog/how-to-choose-right-vehicle-for-delivery   [0.6]
+/blog/how-to-ship-products-south-africa          [0.6]
+/blog/how-to-save-on-delivery-costs              [0.6]
+/blog/guide-to-ecommerce-delivery-south-africa   [0.6]
+
+--- Driver / vehicle owner content ---
+/blog/how-to-earn-with-your-bakkie               [0.6]
+/blog/how-to-earn-with-your-truck                [0.6]
+/blog/how-to-become-delivery-driver-cape-town    [0.6]
+/blog/delivery-driver-income-guide-south-africa  [0.6]
+/blog/gig-economy-drivers-south-africa           [0.6]
+/blog/bakkie-owner-income-guide                  [0.6]
+
+--- Area guides ---
+/blog/delivery-guide-southern-suburbs            [0.5]
+/blog/delivery-guide-northern-suburbs            [0.5]
+/blog/delivery-guide-cape-town-cbd               [0.5]
+/blog/delivery-guide-stellenbosch                [0.5]
+/blog/moving-guide-cape-town-to-johannesburg     [0.5]
+
+--- Seasonal content ---
+/blog/student-moving-guide-cape-town             [0.5]
+/blog/year-end-moving-tips                       [0.5]
+/blog/black-friday-delivery-guide                [0.5]
+/blog/festive-season-delivery-tips               [0.5]
+
+================================================================================
+TIER 8: LEGAL & TRUST PAGES (Required)
+================================================================================
+
+/terms                              [0.4] Terms of service
+/privacy                            [0.4] Privacy policy
+/cookies                            [0.3] Cookie policy
+/disclaimer                         [0.3] Disclaimer
+
+================================================================================
+TIER 9: UTILITY / TOOL PAGES (SEO magnets)
+================================================================================
+
+/tools/delivery-cost-calculator     [0.8] Delivery cost calculator tool
+/tools/distance-calculator          [0.7] Route distance calculator
+/tools/vehicle-size-guide           [0.7] Which vehicle do I need?
+/tools/moving-checklist             [0.7] Interactive moving checklist
+/tools/packing-guide                [0.6] Packing guide tool
+
+================================================================================
+TOTAL RECOMMENDED PAGES: ~100+
+================================================================================
+
+IMPLEMENTATION NOTES:
+
+1. Start with Tier 1-3 (core, service, vehicle pages) — these capture
+   the highest-intent commercial keywords.
+
+2. Build Tier 4 (area pages) next — these dominate local SEO and
+   capture "near me" and location-specific searches.
+
+3. Add Tier 5-6 (info + comparison pages) for mid-funnel users
+   who are researching and comparing options.
+
+4. Launch Tier 7 (blog) as an ongoing content strategy — publish
+   2-4 posts per month targeting long-tail keywords.
+
+5. Tier 8-9 (legal + tools) should be built alongside the core site.
+   The tool pages are particularly powerful for SEO as they attract
+   backlinks and repeat visitors.
+
+6. Every page should have:
+   - Unique title tag (60 chars max)
+   - Unique meta description (155 chars max)
+   - Canonical URL
+   - Open Graph tags
+   - Structured data (JSON-LD)
+   - Internal links to related pages
+   - Clear H1 containing primary keyword
+   - Breadcrumb navigation
+
+7. Generate an XML sitemap at /sitemap.xml that includes all public
+   pages with correct priority and changefreq values.

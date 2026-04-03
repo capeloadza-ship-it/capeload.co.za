@@ -1,0 +1,505 @@
+================================================================================
+CAPELOAD LOGISTICS — META TAGS FOR ALL PAGES
+================================================================================
+Generated: 2026-04-03
+================================================================================
+
+FORMAT:
+  Page: [route]
+  Title: [max 60 characters — primary keyword first]
+  Description: [max 155 characters — include CTA and location]
+  Keywords: [comma-separated, 8-15 per page]
+  H1: [primary heading for the page]
+  OG Title: [for social sharing]
+  OG Description: [for social sharing]
+
+================================================================================
+1. HOMEPAGE (/)
+================================================================================
+
+Title:
+  Delivery & Logistics Cape Town | Bakkie, Van & Truck Hire | CapeLoad
+
+Description:
+  Book same-day delivery in Cape Town. Motorbikes to flatbed trucks, verified drivers, instant quotes. Bakkie hire, courier, moving & logistics across the Western Cape.
+
+Keywords:
+  delivery cape town, logistics cape town, bakkie hire cape town, courier cape town, same day delivery cape town, moving company cape town, truck hire cape town, delivery service western cape, on-demand delivery south africa, logistics platform south africa, bakkie with driver cape town, furniture removal cape town, transport cape town
+
+H1:
+  Your load, our road.
+
+H2 suggestions:
+  "The right vehicle for every load"
+  "Three steps to move your load"
+  "Western Cape & expanding nationally"
+
+OG Title:
+  CapeLoad Logistics | Delivery & Transport in Cape Town
+
+OG Description:
+  From a single parcel to a full house move. Book verified drivers with the right vehicle. Instant quotes, live WhatsApp tracking, same-day delivery across the Western Cape.
+
+Schema type: Organization, LocalBusiness, WebSite
+
+================================================================================
+2. BOOKING PAGE (/booking)
+================================================================================
+
+Title:
+  Book a Delivery | Get Instant Quote | CapeLoad Cape Town
+
+Description:
+  Book your delivery in 60 seconds. Choose from motorbikes, bakkies, vans & trucks. Instant upfront pricing, verified drivers, live tracking. Cape Town & Western Cape.
+
+Keywords:
+  book delivery cape town, delivery quote cape town, instant delivery quote, book a bakkie cape town, book a courier cape town, book moving truck cape town, delivery booking online, same day delivery booking, get delivery quote, delivery price calculator
+
+H1:
+  Book your delivery
+
+OG Title:
+  Book a Delivery in Cape Town | CapeLoad
+
+OG Description:
+  Get an instant quote and book a verified driver in under 60 seconds. Motorbikes to trucks available across Cape Town and the Western Cape.
+
+Schema type: Service, FAQPage (if includes FAQ section)
+
+================================================================================
+3. DRIVER SIGNUP (/driver-signup)
+================================================================================
+
+Title:
+  Register Your Vehicle | Become a Delivery Driver | CapeLoad
+
+Description:
+  Earn with your bakkie, van, or truck. Register as a CapeLoad driver in Cape Town. Set your own hours, get job alerts via WhatsApp, weekly payouts. Free to join.
+
+Keywords:
+  delivery driver jobs cape town, register vehicle for delivery, bakkie owner jobs cape town, earn with your bakkie, become delivery driver cape town, truck driver jobs cape town, driver signup cape town, gig economy driver south africa, owner operator cape town, bakkie gig work cape town, van driver jobs cape town
+
+H1:
+  Register your vehicle and start earning
+
+OG Title:
+  Become a CapeLoad Driver | Earn With Your Vehicle
+
+OG Description:
+  Own a bakkie, van, or truck? Put it to work. Register as a verified CapeLoad driver in Cape Town. Free signup, flexible hours, weekly payouts.
+
+Schema type: JobPosting (if applicable), FAQPage
+
+================================================================================
+4. VEHICLES OVERVIEW (/vehicles)
+================================================================================
+
+Title:
+  Our Fleet | Motorbikes, Bakkies, Vans & Trucks | CapeLoad
+
+Description:
+  Choose the right vehicle for your load. Motorbike couriers, bakkie hire, panel vans, 4-ton trucks, 8-ton trucks & flatbeds. All verified, all available in Cape Town.
+
+Keywords:
+  delivery vehicles cape town, bakkie hire cape town, truck hire cape town, panel van hire cape town, motorbike courier cape town, 4 ton truck hire, 8 ton truck hire, flatbed hire cape town, vehicle types for delivery, delivery fleet cape town
+
+H1:
+  The right vehicle for every load
+
+Schema type: ItemList, Product (for each vehicle)
+
+================================================================================
+5. MOTORBIKE PAGE (/vehicles/motorbike)
+================================================================================
+
+Title:
+  Motorbike Courier Cape Town | Fast Parcel & Document Delivery | CapeLoad
+
+Description:
+  Need a fast courier in Cape Town? Our motorbike couriers deliver parcels, documents & small packages same-day. Instant booking, live tracking, affordable rates.
+
+Keywords:
+  motorbike courier cape town, bike courier cape town, motorbike delivery cape town, document courier cape town, parcel courier cape town, same day motorbike courier, express courier cape town, motorbike courier service, fast delivery cape town, motorcycle courier cape town
+
+H1:
+  Motorbike courier service in Cape Town
+
+Schema type: Service, Product
+
+================================================================================
+6. BAKKIE PAGE (/vehicles/bakkie)
+================================================================================
+
+Title:
+  Bakkie Hire With Driver Cape Town | From R350 | CapeLoad
+
+Description:
+  Hire a bakkie with driver in Cape Town. Perfect for small loads, furniture, appliances & quick trips. Instant quotes, verified drivers. Same-day available.
+
+Keywords:
+  bakkie hire cape town, bakkie with driver cape town, bakkie hire with driver, bakkie for hire cape town, hire a bakkie cape town, bakkie delivery cape town, bakkie transport cape town, bakkie furniture removal, cheap bakkie hire cape town, bakkie movers cape town, ldv hire cape town, 1 ton bakkie hire
+
+H1:
+  Bakkie hire with driver in Cape Town
+
+Schema type: Service, Product, FAQPage
+
+================================================================================
+7. PANEL VAN PAGE (/vehicles/panel-van)
+================================================================================
+
+Title:
+  Panel Van Hire With Driver Cape Town | Furniture & Box Delivery | CapeLoad
+
+Description:
+  Hire a panel van with driver in Cape Town. Enclosed, weatherproof delivery for furniture, boxes & goods. Up to 2 tons. Instant quote, verified drivers.
+
+Keywords:
+  panel van hire cape town, panel van with driver, panel van delivery cape town, van hire cape town, van hire with driver, delivery van hire, cargo van hire cape town, enclosed delivery cape town, furniture delivery van, van transport cape town
+
+H1:
+  Panel van hire with driver in Cape Town
+
+Schema type: Service, Product
+
+================================================================================
+8. 4-TON TRUCK PAGE (/vehicles/4-ton-truck)
+================================================================================
+
+Title:
+  4-Ton Truck Hire With Driver Cape Town | Moving & Hauling | CapeLoad
+
+Description:
+  Hire a 4-ton truck with driver in Cape Town. Ideal for house moves, medium hauls & bulk loads. Professional drivers, instant quote, same-day available.
+
+Keywords:
+  4 ton truck hire cape town, 4 ton truck with driver, four ton truck hire, medium truck hire cape town, moving truck hire cape town, truck hire for house move, 4 ton truck rental cape town, truck movers cape town, truck furniture removal, truck hire with helpers
+
+H1:
+  4-ton truck hire with driver in Cape Town
+
+Schema type: Service, Product
+
+================================================================================
+9. 8-TON TRUCK PAGE (/vehicles/8-ton-truck)
+================================================================================
+
+Title:
+  8-Ton Truck Hire With Driver Cape Town | Large Loads & Bulk | CapeLoad
+
+Description:
+  Hire an 8-ton truck with driver in Cape Town. For large house moves, bulk loads & commercial hauls. Verified drivers, instant pricing, Western Cape coverage.
+
+Keywords:
+  8 ton truck hire cape town, 8 ton truck with driver, eight ton truck hire, large truck hire cape town, heavy truck hire cape town, bulk load truck, commercial truck hire cape town, truck hire for office move, long distance truck hire, truck hire western cape
+
+H1:
+  8-ton truck hire with driver in Cape Town
+
+Schema type: Service, Product
+
+================================================================================
+10. FLATBED PAGE (/vehicles/flatbed)
+================================================================================
+
+Title:
+  Flatbed Truck Hire Cape Town | Oversized & Industrial Loads | CapeLoad
+
+Description:
+  Flatbed and super-link truck hire in Cape Town. For industrial, construction & oversized loads. 8+ tons capacity. Verified operators, instant booking.
+
+Keywords:
+  flatbed truck hire cape town, flatbed hire cape town, super link hire cape town, oversized load transport, industrial load delivery, heavy haulage cape town, abnormal load transport, construction transport cape town, flatbed delivery, heavy goods transport
+
+H1:
+  Flatbed and super-link truck hire in Cape Town
+
+Schema type: Service, Product
+
+================================================================================
+11. AREAS OVERVIEW (/areas)
+================================================================================
+
+Title:
+  Delivery Areas & Coverage Map | Cape Town & Western Cape | CapeLoad
+
+Description:
+  CapeLoad delivers across Cape Town, Stellenbosch, Paarl, Somerset West, Worcester & the entire Western Cape. Check your area and book now.
+
+Keywords:
+  delivery areas cape town, delivery coverage cape town, delivery zones cape town, where does capeload deliver, cape town delivery areas, western cape delivery, delivery coverage map, areas we cover, cape town suburbs delivery, western cape logistics coverage
+
+H1:
+  Areas we cover across Cape Town and the Western Cape
+
+Schema type: LocalBusiness (with areaServed), BreadcrumbList
+
+================================================================================
+12. CAPE TOWN HUB (/areas/cape-town)
+================================================================================
+
+Title:
+  Delivery & Logistics in Cape Town | Same-Day Available | CapeLoad
+
+Description:
+  Fast delivery across all Cape Town suburbs. CBD, Northern Suburbs, Southern Suburbs, Atlantic Seaboard, Cape Flats & Helderberg. Book a bakkie, van or truck now.
+
+Keywords:
+  delivery cape town, courier cape town, bakkie hire cape town, logistics cape town, moving cape town, transport cape town, cape town delivery service, cape town courier service, same day delivery cape town, cape town movers
+
+H1:
+  Delivery and logistics services in Cape Town
+
+Schema type: LocalBusiness, Service
+
+================================================================================
+13. INTER-CITY ROUTES (example: /routes/cape-town-to-johannesburg)
+================================================================================
+
+Title:
+  Cape Town to Johannesburg Delivery | Courier & Moving | CapeLoad
+
+Description:
+  Delivery from Cape Town to Johannesburg. Courier, furniture removal & freight transport. Get an instant quote for CT to JHB. Bakkie, van or truck available.
+
+Keywords:
+  cape town to johannesburg delivery, courier cape town to johannesburg, moving cape town to johannesburg, freight cape town to johannesburg, transport cape town to johannesburg, CT to JHB delivery, cape town to joburg courier, cape town to gauteng delivery, long distance delivery south africa
+
+H1:
+  Delivery from Cape Town to Johannesburg
+
+Schema type: Service
+
+================================================================================
+14. HOW IT WORKS (/how-it-works)
+================================================================================
+
+Title:
+  How CapeLoad Works | Book, Quote & Deliver in 3 Steps
+
+Description:
+  Book a delivery in 3 simple steps. Tell us your load, get an instant quote in Rands, and we dispatch a verified driver. No call centres, no hidden fees.
+
+Keywords:
+  how does capeload work, how to book delivery cape town, how to get delivery quote, delivery process cape town, book delivery online, instant delivery quote, delivery steps, how delivery works, how courier works, on-demand delivery how it works
+
+H1:
+  How CapeLoad works: three steps to move your load
+
+Schema type: HowTo, FAQPage
+
+================================================================================
+15. ABOUT PAGE (/about)
+================================================================================
+
+Title:
+  About CapeLoad Logistics | Cape Town Delivery Platform
+
+Description:
+  CapeLoad connects Cape Town with verified owner-operator drivers. Multi-vehicle delivery platform built in the Western Cape. From bikes to trucks, your load is our road.
+
+Keywords:
+  about capeload, capeload logistics, cape town delivery company, cape town logistics company, capeload story, who is capeload, delivery platform cape town, multi-vehicle delivery, owner-operator logistics, western cape logistics
+
+H1:
+  About CapeLoad Logistics
+
+Schema type: Organization, AboutPage
+
+================================================================================
+16. FAQ PAGE (/faq)
+================================================================================
+
+Title:
+  FAQ | Frequently Asked Questions | CapeLoad Logistics
+
+Description:
+  Got questions about CapeLoad? Find answers about booking, pricing, vehicles, delivery areas, payment, driver registration and more.
+
+Keywords:
+  capeload faq, delivery faq, courier faq cape town, bakkie hire faq, delivery questions, how much does delivery cost, delivery payment options, delivery tracking, delivery areas, driver registration faq
+
+H1:
+  Frequently asked questions
+
+Schema type: FAQPage (critical for featured snippets)
+
+================================================================================
+17. PRICING PAGE (/pricing)
+================================================================================
+
+Title:
+  Delivery Pricing & Rates Cape Town | Transparent Pricing | CapeLoad
+
+Description:
+  See CapeLoad delivery rates. Motorbike courier from R80, bakkie from R350, trucks from R800. No hidden fees, instant quotes, pay via EFT, card or Ozow.
+
+Keywords:
+  delivery prices cape town, delivery rates cape town, delivery cost cape town, courier prices cape town, bakkie hire price, truck hire price, delivery pricing, how much does delivery cost, delivery fee calculator, transparent delivery pricing
+
+H1:
+  Delivery pricing and rates
+
+Schema type: PriceSpecification, Service
+
+================================================================================
+18. CONTACT PAGE (/contact)
+================================================================================
+
+Title:
+  Contact CapeLoad | WhatsApp, Email & Phone | Cape Town
+
+Description:
+  Get in touch with CapeLoad Logistics. WhatsApp us for instant support, email hello@capeload.co.za, or visit us in Cape Town. We respond within minutes.
+
+Keywords:
+  contact capeload, capeload phone number, capeload whatsapp, capeload email, capeload contact details, delivery support cape town, capeload customer service, capeload address, capeload cape town office
+
+H1:
+  Contact CapeLoad Logistics
+
+Schema type: ContactPage, LocalBusiness
+
+================================================================================
+19. SERVICES OVERVIEW (/services)
+================================================================================
+
+Title:
+  Delivery Services Cape Town | Courier, Moving, Transport | CapeLoad
+
+Description:
+  All CapeLoad delivery services. Same-day courier, furniture removal, bakkie hire, truck hire, ecommerce delivery & more across Cape Town and the Western Cape.
+
+Keywords:
+  delivery services cape town, courier service cape town, moving service cape town, transport service cape town, logistics services cape town, bakkie hire service, truck hire service, ecommerce delivery, business delivery, same day delivery service
+
+H1:
+  Our delivery services
+
+Schema type: Service, ItemList
+
+================================================================================
+20. SAME-DAY DELIVERY (/services/same-day-delivery)
+================================================================================
+
+Title:
+  Same-Day Delivery Cape Town | Book Now, Deliver Today | CapeLoad
+
+Description:
+  Need it delivered today? CapeLoad offers same-day delivery across Cape Town. Motorbikes, bakkies, vans & trucks. Book online, get instant quote, track live.
+
+Keywords:
+  same day delivery cape town, same day courier cape town, same day delivery service, same day bakkie hire, deliver today cape town, urgent delivery cape town, express delivery cape town, on demand delivery, instant delivery, fast delivery cape town
+
+H1:
+  Same-day delivery in Cape Town
+
+Schema type: Service
+
+================================================================================
+21. BAKKIE HIRE SERVICE (/services/bakkie-hire)
+================================================================================
+
+Title:
+  Bakkie Hire With Driver Cape Town | Small Loads & Moves | CapeLoad
+
+Description:
+  Hire a bakkie with a verified driver for small moves, furniture, appliances & quick deliveries in Cape Town. Instant quote, no hidden fees, same-day available.
+
+Keywords:
+  bakkie hire cape town, bakkie with driver, hire bakkie cape town, bakkie for hire, bakkie hire with driver cape town, cheap bakkie hire, affordable bakkie hire, bakkie delivery, bakkie furniture removal, bakkie movers, small load delivery
+
+H1:
+  Bakkie hire with driver across Cape Town
+
+Schema type: Service
+
+================================================================================
+22. FURNITURE REMOVAL (/services/furniture-removal)
+================================================================================
+
+Title:
+  Furniture Removal Cape Town | Movers From R350 | CapeLoad
+
+Description:
+  Affordable furniture removal in Cape Town. Bakkies, vans & trucks with verified drivers. House moves, single items, office relocations. Instant quote online.
+
+Keywords:
+  furniture removal cape town, furniture movers cape town, furniture delivery cape town, house movers cape town, moving company cape town, cheap movers cape town, affordable movers, furniture transport, single item movers, house moving service
+
+H1:
+  Furniture removal and moving services in Cape Town
+
+Schema type: Service, FAQPage
+
+================================================================================
+23. REVIEWS PAGE (/reviews)
+================================================================================
+
+Title:
+  CapeLoad Reviews | What Our Customers Say | Cape Town
+
+Description:
+  Read real reviews from CapeLoad customers in Cape Town. Rated for speed, reliability and value. See why businesses and individuals choose CapeLoad.
+
+Keywords:
+  capeload reviews, capeload rating, capeload testimonials, delivery reviews cape town, courier reviews cape town, bakkie hire reviews, is capeload reliable, is capeload safe, capeload customer feedback, capeload experience
+
+H1:
+  What our customers say
+
+Schema type: Review, AggregateRating
+
+================================================================================
+24. COMPARISON HUB (/compare)
+================================================================================
+
+Title:
+  Compare Delivery Services Cape Town | CapeLoad vs Competitors
+
+Description:
+  Compare CapeLoad with Droppa, Lalamove, Picup, The Courier Guy & more. Side-by-side pricing, vehicles, coverage and features for Cape Town delivery.
+
+Keywords:
+  compare delivery services cape town, best delivery service cape town, delivery comparison south africa, capeload vs droppa, capeload vs lalamove, capeload vs picup, cheapest delivery cape town, delivery app comparison
+
+H1:
+  Compare delivery services in Cape Town
+
+Schema type: ItemList, ComparisonPage (custom)
+
+================================================================================
+25. BLOG INDEX (/blog)
+================================================================================
+
+Title:
+  CapeLoad Blog | Delivery Tips, Moving Guides & Logistics News
+
+Description:
+  Tips on delivery, moving, bakkie hire and logistics in Cape Town. Guides for businesses, drivers and anyone who needs to move goods across the Western Cape.
+
+Keywords:
+  delivery blog cape town, moving tips cape town, logistics news south africa, bakkie hire guide, delivery driver tips, moving checklist, ecommerce delivery guide, courier guide cape town
+
+H1:
+  The CapeLoad blog
+
+Schema type: Blog, CollectionPage
+
+================================================================================
+26. DELIVERY COST CALCULATOR (/tools/delivery-cost-calculator)
+================================================================================
+
+Title:
+  Delivery Cost Calculator Cape Town | Free Instant Estimate | CapeLoad
+
+Description:
+  Calculate your delivery cost in Cape Town. Enter pickup, drop-off and vehicle type for an instant estimate. Free to use, no signup required.
+
+Keywords:
+  delivery cost calculator, delivery price calculator, courier cost calculator, moving cost calculator, bakkie hire calculator, delivery estimate, how much does delivery cost, calculate delivery price, delivery fee calculator, transport cost calculator
+
+H1:
+  Delivery cost calculator
+
+Schema type: WebApplication, SoftwareApplication
