@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/';
   const [loading, setLoading] = useState(false);
@@ -42,30 +42,38 @@ export default function LoginPage() {
   }
 
   return (
-    <div className={s.wrapper}>
-      <div className={s.card}>
-        <Link href="/" className={s.logo}>
-          <Image src="/images/logo-dark.png" alt="CapeLoad" width={140} height={48} style={{ height: 48, width: 'auto' }} />
-        </Link>
+    <div className={s.card}>
+      <Link href="/" className={s.logo}>
+        <Image src="/images/logo-dark.png" alt="CapeLoad" width={140} height={48} style={{ height: 48, width: 'auto' }} />
+      </Link>
 
-        <h1>Sign in to CapeLoad</h1>
-        <p>Access your dashboard, track bookings, and manage your account.</p>
+      <h1>Sign in to CapeLoad</h1>
+      <p>Access your dashboard, track bookings, and manage your account.</p>
 
-        <button
-          className={s.googleBtn}
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-        >
-          <GoogleIcon />
-          {loading ? 'Redirecting...' : 'Continue with Google'}
-        </button>
+      <button
+        className={s.googleBtn}
+        onClick={handleGoogleSignIn}
+        disabled={loading}
+      >
+        <GoogleIcon />
+        {loading ? 'Redirecting...' : 'Continue with Google'}
+      </button>
 
-        {error && <div className={s.error}>{error}</div>}
+      {error && <div className={s.error}>{error}</div>}
 
-        <div className={s.footer}>
-          <Link href="/">Back to home</Link>
-        </div>
+      <div className={s.footer}>
+        <Link href="/">Back to home</Link>
       </div>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <div className={s.wrapper}>
+      <Suspense fallback={<div className={s.card}><p>Loading...</p></div>}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }
