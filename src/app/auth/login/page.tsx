@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
@@ -18,9 +18,14 @@ const GoogleIcon = () => (
 
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const redirect = searchParams.get('redirect') || '/';
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleGoogleSignIn() {
     setLoading(true);
@@ -34,9 +39,43 @@ function LoginForm() {
         },
       });
       if (authError) throw authError;
-    } catch (err) {
-      console.error('Sign-in error:', err);
-      setError('Failed to sign in. Please try again.');
+    } catch {
+      setError('Failed to sign in with Google. Please try again.');
+      setLoading(false);
+    }
+  }
+
+  async function handleEmailAuth(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const supabase = createClient();
+
+      if (mode === 'signup') {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
+          },
+        });
+        if (signUpError) throw signUpError;
+        setSuccess('Check your email for a confirmation link.');
+        setLoading(false);
+      } else {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (signInError) throw signInError;
+        router.push(redirect);
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Authentication failed';
+      setError(message);
       setLoading(false);
     }
   }
@@ -47,8 +86,8 @@ function LoginForm() {
         <Image src="/images/logo-dark.png" alt="CapeLoad" width={140} height={48} style={{ height: 48, width: 'auto' }} />
       </Link>
 
-      <h1>Sign in to CapeLoad</h1>
-      <p>Access your dashboard, track bookings, and manage your account.</p>
+      <h1>{mode === 'signin' ? 'Sign in to CapeLoad' : 'Create your account'}</h1>
+      <p>{mode === 'signin' ? 'Access your dashboard and manage bookings.' : 'Get started with CapeLoad today.'}</p>
 
       <button
         className={s.googleBtn}
@@ -56,10 +95,32 @@ function LoginForm() {
         disabled={loading}
       >
         <GoogleIcon />
-        {loading ? 'Redirecting...' : 'Continue with Google'}
+        Continue with Google
       </button>
 
+      <div className={s.divider}>or</div>
+
+      <div className={s.tabs}>
+        <button className={`${s.tab} ${mode === 'signin' ? s.tabActive : ''}`} onClick={() => { setMode('signin'); setError(''); setSuccess(''); }}>Sign In</button>
+        <button className={`${s.tab} ${mode === 'signup' ? s.tabActive : ''}`} onClick={() => { setMode('signup'); setError(''); setSuccess(''); }}>Sign Up</button>
+      </div>
+
+      <form onSubmit={handleEmailAuth}>
+        <div className={s.formGroup}>
+          <label>Email</label>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required />
+        </div>
+        <div className={s.formGroup}>
+          <label>Password</label>
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter your password" required minLength={6} />
+        </div>
+        <button type="submit" className={s.submitBtn} disabled={loading}>
+          {loading ? 'Please wait...' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+        </button>
+      </form>
+
       {error && <div className={s.error}>{error}</div>}
+      {success && <div className={s.success}>{success}</div>}
 
       <div className={s.footer}>
         <Link href="/">Back to home</Link>

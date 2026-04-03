@@ -355,6 +355,7 @@ export default function Home() {
               <Link href="/driver-signup">Register Vehicle</Link>
               <Link href="/portal/client">Client Portal</Link>
               <Link href="/portal/driver">Driver Portal</Link>
+              <Link href="/auth/login">Log In / Sign Up</Link>
             </div>
             <div className={styles.footerCol}>
               <h4>Company</h4>
