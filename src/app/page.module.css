@@ -132,13 +132,13 @@
   height: 100%;
   min-height: 380px;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 24px;
 }
 .heroImageGrid img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 24px;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .heroImageGrid img:hover {
@@ -146,7 +146,7 @@
 }
 .heroImageGrid img:first-child {
   grid-row: 1 / 3;
-  border-radius: 12px 0 0 12px;
+  border-radius: 24px 0 0 24px;
 }
 
 /* ═══════════════════════════════════════
@@ -169,7 +169,7 @@
 .vehicleCard {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 12px;
+  border-radius: 24px;
   padding: 28px 20px;
   text-align: center;
   transition: all 0.3s ease;
@@ -343,7 +343,7 @@
 .coverageMap {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 0;
   aspect-ratio: 1;
   display: flex;
@@ -429,7 +429,7 @@
 .ctaCard {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 48px 40px;
   transition: all 0.3s ease;
 }
@@ -442,7 +442,7 @@
 .ctaCardIcon {
   width: 64px;
   height: 64px;
-  border-radius: 16px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -502,7 +502,7 @@
   width: 100%;
   height: 140px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 24px;
   margin-bottom: 20px;
   overflow: hidden;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
