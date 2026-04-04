@@ -29,7 +29,9 @@ export default function DriverPortal() {
   const { user, profile } = useUser();
   const [activeTab, setActiveTab] = useState<Tab>('vehicles');
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const { bookings } = useRealtimeBookings({ driverId: user?.id });
+  // Driver record from drivers table (looked up by user_id)
+  const [driverRecord, setDriverRecord] = useState<{ id: string; rating: number } | null>(null);
+  const { bookings } = useRealtimeBookings({ driverId: driverRecord?.id });
   const { notifications, unreadCount, markAsRead } = useRealtimeNotifications(user?.id);
   const [showNotifs, setShowNotifs] = useState(false);
   const [stats, setStats] = useState({ activeVehicles: 0, jobsWeek: 0, earningsWeek: 0, rating: 0 });
@@ -43,23 +45,39 @@ export default function DriverPortal() {
 
   const supabase = createClient();
 
-  const loadVehicles = useCallback(async () => {
+  // First, look up the driver record by auth user_id
+  const loadDriverRecord = useCallback(async () => {
     if (!user) return;
+    const { data } = await supabase
+      .from('drivers')
+      .select('id, rating')
+      .eq('user_id', user.id)
+      .single();
+    if (data) setDriverRecord(data as { id: string; rating: number });
+  }, [user]);
+
+  useEffect(() => {
+    loadDriverRecord();
+  }, [loadDriverRecord]);
+
+  const loadVehicles = useCallback(async () => {
+    if (!driverRecord) return;
+    // vehicles.owner_id = drivers.id (NOT driver_id, NOT user.id)
     const { data } = await supabase
       .from('vehicles')
       .select('*')
-      .eq('driver_id', user.id)
+      .eq('owner_id', driverRecord.id)
       .order('created_at', { ascending: false });
     if (data) setVehicles(data as Vehicle[]);
-  }, [user]);
+  }, [driverRecord]);
 
   const loadPendingJobs = useCallback(async () => {
-    if (!user) return;
-    // Get driver's vehicle types
+    if (!driverRecord) return;
+    // Get driver's vehicle types using owner_id
     const { data: driverVehicles } = await supabase
       .from('vehicles')
       .select('vehicle_type')
-      .eq('driver_id', user.id)
+      .eq('owner_id', driverRecord.id)
       .eq('availability_status', 'available');
 
     const vehicleTypes = (driverVehicles || []).map((v: { vehicle_type: string }) => v.vehicle_type);
@@ -78,32 +96,34 @@ export default function DriverPortal() {
       .limit(20);
 
     if (data) setPendingJobs(data as Booking[]);
-  }, [user]);
+  }, [driverRecord]);
 
   const loadStats = useCallback(async () => {
-    if (!user) return;
+    if (!driverRecord) return;
     const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString();
 
-    const [vehicleRes, jobsRes, earningsRes, driverRes] = await Promise.all([
-      supabase.from('vehicles').select('id', { count: 'exact', head: true }).eq('driver_id', user.id).eq('availability_status', 'available'),
-      supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('driver_id', user.id).gte('created_at', weekAgo),
-      supabase.from('bookings').select('driver_payout').eq('driver_id', user.id).eq('status', 'completed').gte('created_at', weekAgo),
-      supabase.from('drivers').select('rating').eq('id', user.id).single(),
+    // vehicles use owner_id = drivers.id, bookings use driver_id = drivers.id
+    const [vehicleRes, jobsRes, earningsRes] = await Promise.all([
+      supabase.from('vehicles').select('id', { count: 'exact', head: true }).eq('owner_id', driverRecord.id).eq('availability_status', 'available'),
+      supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('driver_id', driverRecord.id).gte('created_at', weekAgo),
+      supabase.from('bookings').select('driver_payout').eq('driver_id', driverRecord.id).eq('status', 'completed').gte('created_at', weekAgo),
     ]);
 
     setStats({
       activeVehicles: vehicleRes.count || 0,
       jobsWeek: jobsRes.count || 0,
       earningsWeek: (earningsRes.data || []).reduce((s: number, b: { driver_payout: number }) => s + (b.driver_payout || 0), 0),
-      rating: driverRes.data?.rating || 0,
+      rating: driverRecord.rating || 0,
     });
-  }, [user]);
+  }, [driverRecord]);
 
   useEffect(() => {
-    loadVehicles();
-    loadPendingJobs();
-    loadStats();
-  }, [loadVehicles, loadPendingJobs, loadStats]);
+    if (driverRecord) {
+      loadVehicles();
+      loadPendingJobs();
+      loadStats();
+    }
+  }, [driverRecord, loadVehicles, loadPendingJobs, loadStats]);
 
   // Reload pending jobs when tab changes to jobs
   useEffect(() => {
@@ -444,6 +464,21 @@ export default function DriverPortal() {
                 <div className={styles.jobDetail}>👤 {j.client_name || 'Client'}</div>
                 <div className={styles.jobDetail}>📋 {j.ref}</div>
               </div>
+
+              {/* Payment method info */}
+              {(j.payment_method === 'cash_pickup' || j.payment_method === 'cash_delivery') && (
+                <div className={styles.paymentNotice} style={{ background: '#fff8f0', border: '1px solid #f0a050', borderRadius: 12, padding: '10px 14px', margin: '8px 0', fontSize: 13 }}>
+                  <strong>Cash job</strong> — you owe CapeLoad <strong>R{(j.commission || Math.round(j.total * 0.18)).toLocaleString()}</strong> from this delivery
+                  <div style={{ fontSize: 12, color: '#8a6a3a', marginTop: 2 }}>
+                    {j.payment_method === 'cash_pickup' ? 'Collect cash at pickup' : 'Collect cash at delivery'}
+                  </div>
+                </div>
+              )}
+              {(j.payment_method === 'yoco' || j.payment_method === 'eft') && (
+                <div style={{ background: '#f0f8f0', border: '1px solid #50a050', borderRadius: 12, padding: '10px 14px', margin: '8px 0', fontSize: 13 }}>
+                  <strong>Payment processed</strong> — your payout: <strong>R{(j.driver_payout || 0).toLocaleString()}</strong>
+                </div>
+              )}
 
               {/* Status progression buttons */}
               {renderStatusActions(j)}

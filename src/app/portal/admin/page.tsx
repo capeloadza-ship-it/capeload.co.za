@@ -18,7 +18,7 @@ interface Vehicle {
   status: string;
   available: boolean;
   availability_status: string;
-  driver_id: string;
+  owner_id: string;
   driver_name: string;
 }
 
@@ -123,9 +123,10 @@ export default function AdminPortal() {
   const supabase = createClient();
 
   const loadFleet = useCallback(async () => {
+    // vehicles.owner_id is FK to drivers.id
     const { data } = await supabase
       .from('vehicles')
-      .select('*, drivers(full_name)')
+      .select('*, drivers!owner_id(full_name)')
       .order('created_at', { ascending: false })
       .limit(50);
     if (data) {
@@ -453,7 +454,7 @@ export default function AdminPortal() {
                       const activeBooking = bookings.find(
                         (b) =>
                           (b.status === 'active' || b.status === 'assigned') &&
-                          b.driver_id === v.driver_id
+                          b.driver_id === v.owner_id
                       );
                       return (
                         <tr key={v.id}>

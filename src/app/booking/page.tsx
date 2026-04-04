@@ -40,10 +40,17 @@ const VEHICLE_ICONS: Record<VehicleType, React.ReactNode> = {
   flatbed: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="8" width="16" height="3" rx="1" /><path d="M17 8h4l2 3v7h-6V8z" /><line x1="1" y1="11" x2="17" y2="11" /><circle cx="5" cy="18.5" r="2.5" /><circle cx="19.5" cy="18.5" r="2.5" /></svg>,
 };
 
+/*
+ * NOTE: The bookings table payment_method check constraint needs a SQL migration:
+ * ALTER TABLE bookings DROP CONSTRAINT IF EXISTS bookings_payment_method_check;
+ * ALTER TABLE bookings ADD CONSTRAINT bookings_payment_method_check
+ *   CHECK (payment_method IN ('yoco', 'cash_pickup', 'cash_delivery', 'eft'));
+ */
 const PAYMENT_METHODS = [
-  { value: 'eft' as const, label: 'EFT / Bank', desc: 'Instant EFT' },
-  { value: 'card' as const, label: 'Card', desc: 'Visa / MC' },
-  { value: 'ozow' as const, label: 'Ozow', desc: 'Instant pay' },
+  { value: 'yoco' as const, label: 'Pay with Yoco', desc: 'Card payment' },
+  { value: 'cash_pickup' as const, label: 'Cash on Pickup', desc: 'Driver collects' },
+  { value: 'cash_delivery' as const, label: 'Cash on Delivery', desc: 'Pay at dropoff' },
+  { value: 'eft' as const, label: 'EFT / Bank Transfer', desc: 'Manual transfer' },
 ];
 type PaymentMethod = (typeof PAYMENT_METHODS)[number]['value'];
 
@@ -72,7 +79,7 @@ export default function BookingPage() {
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('eft');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('yoco');
 
   /* Booking state */
   const [submitting, setSubmitting] = useState(false);
@@ -386,10 +393,21 @@ export default function BookingPage() {
                   <span>Distance est.</span>
                   <span>{Math.round(quote.distanceKm)} km</span>
                 </div>
+                <div className={s.quoteRow}>
+                  <span>Payment</span>
+                  <span>{PAYMENT_METHODS.find((pm) => pm.value === paymentMethod)?.label || paymentMethod}</span>
+                </div>
                 <div className={`${s.quoteRow} ${s.quoteRowTotal}`}>
                   <span>Total</span>
                   <span>R{quote.total.toLocaleString()}</span>
                 </div>
+                {(paymentMethod === 'cash_pickup' || paymentMethod === 'cash_delivery') && (
+                  <div style={{ fontSize: 12, color: '#8a6a3a', marginTop: 8, lineHeight: 1.4 }}>
+                    {paymentMethod === 'cash_pickup'
+                      ? 'Pay the driver in cash when they arrive for pickup.'
+                      : 'Pay the driver in cash when your goods are delivered.'}
+                  </div>
+                )}
               </div>
             )}
 

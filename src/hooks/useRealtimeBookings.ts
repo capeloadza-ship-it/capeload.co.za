@@ -18,6 +18,8 @@ export interface Booking {
   driver_status: string | null;
   total: number;
   driver_payout: number;
+  commission: number;
+  payment_method: string | null;
   driver_name: string | null;
   date: string;
   time: string;
