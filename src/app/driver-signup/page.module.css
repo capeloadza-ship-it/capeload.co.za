@@ -1,0 +1,273 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.nav {
+  background: #fff;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.navInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 72px;
+}
+
+.navInner img {
+  height: 48px;
+  width: auto;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Form sections */
+.section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.input {
+  padding: 12px;
+  border: 1.5px solid var(--input-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: var(--input-bg);
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--orange);
+}
+
+.select {
+  composes: input;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* Vehicle type picker */
+.vehicleTypeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.vehicleTypeOption {
+  padding: 12px;
+  border: 1.5px solid var(--input-border);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--input-bg);
+  font-family: inherit;
+}
+
+.vehicleTypeOption:hover {
+  border-color: var(--orange);
+}
+
+.vehicleTypeOptionActive {
+  composes: vehicleTypeOption;
+  border-color: var(--orange);
+  background: var(--orange-light);
+}
+
+.vehicleTypeLabel {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.vehicleTypeCapacity {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Document upload */
+.uploadArea {
+  border: 1.5px dashed var(--input-border);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  background: var(--input-bg);
+}
+
+.uploadArea:hover {
+  border-color: var(--orange);
+}
+
+.uploadLabel {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Operating area */
+.checkboxGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  accent-color: var(--orange);
+  width: 16px;
+  height: 16px;
+}
+
+/* Submit button */
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-family: inherit;
+  background: var(--orange);
+  color: #fff;
+}
+
+.submitBtn:hover { opacity: 0.85; }
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success state */
+.success {
+  text-align: center;
+  padding: 60px 24px;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 20px;
+}
+
+.success h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.success p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.homeLink {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 28px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--orange);
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.homeLink:hover { opacity: 0.85; }
+
+/* Error message */
+.error {
+  color: var(--red);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .fieldGrid { grid-template-columns: 1fr; }
+  .vehicleTypeGrid { grid-template-columns: repeat(2, 1fr); }
+  .checkboxGroup { grid-template-columns: 1fr; }
+}
