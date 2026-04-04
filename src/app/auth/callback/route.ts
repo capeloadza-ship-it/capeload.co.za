@@ -30,15 +30,20 @@ export async function GET(request: NextRequest) {
       .eq('id', user.id)
       .single();
 
-    if (profile?.role === 'admin') {
+    // Smart redirect based on role
+    if (profile?.role === 'super_admin' || profile?.role === 'admin') {
       return NextResponse.redirect(`${origin}/portal/admin`);
     }
     if (profile?.role === 'driver') {
       return NextResponse.redirect(`${origin}/portal/driver`);
     }
+    // All other authenticated users (client, guest) go to client portal
+    if (redirect === '/' || redirect === '') {
+      return NextResponse.redirect(`${origin}/portal/client`);
+    }
   }
 
-  /* Default: redirect to the requested page or home */
+  /* Redirect to the requested page */
   const target = redirect.startsWith('/') ? `${origin}${redirect}` : redirect;
   return NextResponse.redirect(target);
 }
