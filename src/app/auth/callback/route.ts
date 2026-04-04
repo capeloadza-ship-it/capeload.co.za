@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get('code');
-  const redirect = searchParams.get('redirect') || '/';
+  const redirect = searchParams.get('redirect');
 
   if (!code) {
     return NextResponse.redirect(`${origin}/auth/login?error=no_code`);
@@ -20,30 +20,40 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
   }
 
-  /* Check user role to determine redirect */
+  // Always check user role for redirect — don't rely on redirect param for OAuth
   const { data: { user } } = await supabase.auth.getUser();
 
   if (user) {
+    // Small delay for RLS to apply after new user creation
+    await new Promise(r => setTimeout(r, 300));
+
     const { data: profile } = await supabase
       .from('users')
       .select('role')
       .eq('id', user.id)
       .single();
 
-    // Smart redirect based on role
+    // Admin
     if (profile?.role === 'super_admin' || profile?.role === 'admin') {
       return NextResponse.redirect(`${origin}/portal/admin`);
     }
+    // Fallback admin check by email
+    if (user.email === 'capeload.za@gmail.com') {
+      return NextResponse.redirect(`${origin}/portal/admin`);
+    }
+    // Driver
     if (profile?.role === 'driver') {
       return NextResponse.redirect(`${origin}/portal/driver`);
     }
-    // All other authenticated users (client, guest) go to client portal
-    if (redirect === '/' || redirect === '') {
-      return NextResponse.redirect(`${origin}/portal/client`);
+    // If explicit redirect provided, use it
+    if (redirect && redirect !== '/' && redirect !== '') {
+      const target = redirect.startsWith('/') ? `${origin}${redirect}` : redirect;
+      return NextResponse.redirect(target);
     }
+    // Default: client portal
+    return NextResponse.redirect(`${origin}/portal/client`);
   }
 
-  /* Redirect to the requested page */
-  const target = redirect.startsWith('/') ? `${origin}${redirect}` : redirect;
-  return NextResponse.redirect(target);
+  // Fallback
+  return NextResponse.redirect(`${origin}/portal/client`);
 }

@@ -72,31 +72,23 @@ function LoginForm() {
         });
         if (signInError) throw signInError;
 
-        // Check user role for smart redirect
-        if (redirect === '/') {
-          // Small delay to ensure session is established for RLS
-          await new Promise(r => setTimeout(r, 500));
+        // Always do role-based redirect
+        await new Promise(r => setTimeout(r, 300));
 
-          const { data: profile } = await supabase
-            .from('users')
-            .select('role')
-            .eq('id', signInData.user.id)
-            .single();
+        const { data: profile } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', signInData.user.id)
+          .single();
 
-          if (profile?.role === 'super_admin' || profile?.role === 'admin') {
-            router.push('/portal/admin');
-          } else if (profile?.role === 'driver') {
-            router.push('/portal/driver');
-          } else {
-            // Fallback: check email for admin
-            if (signInData.user.email === 'capeload.za@gmail.com') {
-              router.push('/portal/admin');
-            } else {
-              router.push('/portal/client');
-            }
-          }
-        } else {
+        if (profile?.role === 'super_admin' || profile?.role === 'admin' || signInData.user.email === 'capeload.za@gmail.com') {
+          router.push('/portal/admin');
+        } else if (profile?.role === 'driver') {
+          router.push('/portal/driver');
+        } else if (redirect && redirect !== '/' && redirect.startsWith('/portal')) {
           router.push(redirect);
+        } else {
+          router.push('/portal/client');
         }
       }
     } catch (err: unknown) {
