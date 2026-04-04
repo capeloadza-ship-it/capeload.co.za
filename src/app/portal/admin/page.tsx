@@ -24,12 +24,15 @@ interface Vehicle {
 
 interface Driver {
   id: string;
-  full_name: string;
-  phone: string;
-  vehicle_count: number;
-  jobs_done: number;
-  rating: number | null;
+  user_id: string;
+  id_number: string | null;
+  licence_number: string | null;
   status: string;
+  rating: number | null;
+  total_jobs: number;
+  area: string | null;
+  created_at: string;
+  users: { full_name: string; phone: string; email: string }[] | { full_name: string; phone: string; email: string } | null;
 }
 
 interface Client {
@@ -51,7 +54,7 @@ interface AvailableVehicle {
 
 interface ApprovedDriver {
   id: string;
-  full_name: string;
+  users: { full_name: string }[] | { full_name: string } | null;
 }
 
 const NAV_ITEMS: { key: Panel; label: string; section?: string }[] = [
@@ -142,7 +145,7 @@ export default function AdminPortal() {
   const loadDrivers = useCallback(async () => {
     const { data } = await supabase
       .from('drivers')
-      .select('*')
+      .select('*, users!user_id(full_name, phone, email)')
       .order('created_at', { ascending: false })
       .limit(50);
     if (data) setDrivers(data as Driver[]);
@@ -196,7 +199,7 @@ export default function AdminPortal() {
     try {
       const [vRes, dRes] = await Promise.all([
         fetch('/api/vehicles/available'),
-        supabase.from('drivers').select('id, full_name').eq('status', 'approved'),
+        supabase.from('drivers').select('id, users!user_id(full_name)').eq('status', 'approved'),
       ]);
       if (vRes.ok) {
         const vData = await vRes.json();
@@ -504,7 +507,7 @@ export default function AdminPortal() {
                   </thead>
                   <tbody>
                     {drivers.map((d) => {
-                      const initials = d.full_name
+                      const initials = (Array.isArray(d.users) ? d.users[0]?.full_name : d.users?.full_name) || 'Unknown'
                         .split(' ')
                         .map((n) => n[0])
                         .join('')
@@ -516,13 +519,13 @@ export default function AdminPortal() {
                             <div className={styles.driverRow}>
                               <div className={styles.driverAvatar}>{initials}</div>
                               <div>
-                                <div className={styles.driverName}>{d.full_name}</div>
-                                <div className={styles.driverPhone}>{d.phone}</div>
+                                <div className={styles.driverName}>{(Array.isArray(d.users) ? d.users[0]?.full_name : d.users?.full_name) || 'Unknown'}</div>
+                                <div className={styles.driverPhone}>{(Array.isArray(d.users) ? d.users[0]?.phone : d.users?.phone) || ''}</div>
                               </div>
                             </div>
                           </td>
-                          <td>{d.vehicle_count}</td>
-                          <td>{d.jobs_done}</td>
+                          <td>{d.total_jobs || 0}</td>
+                          <td>{d.total_jobs || 0}</td>
                           <td>{d.rating ?? '—'}</td>
                           <td>{statusBadge(d.status)}</td>
                           <td>
@@ -674,7 +677,7 @@ export default function AdminPortal() {
               <option value="">Select a driver</option>
               {approvedDrivers.map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.full_name}
+                  {(Array.isArray(d.users) ? d.users[0]?.full_name : d.users?.full_name) || 'Unknown'}
                 </option>
               ))}
             </select>
