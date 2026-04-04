@@ -303,6 +303,85 @@
   cursor: pointer;
 }
 
+/* Modal overlay */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 28px;
+  width: 100%;
+  max-width: 440px;
+  margin: 16px;
+}
+
+.modalTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: var(--input-bg);
+  margin-bottom: 12px;
+}
+
+.formInput:focus {
+  border-color: var(--orange);
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* Inline badge for driver_status */
+.driverStatusBadge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* Two-badge table cell */
+.badgeStack {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Vehicle assigned info */
+.assignedInfo {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Send button loading */
+.btnLoading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 /* Responsive */
 @media (max-width: 960px) {
   .sidebar { display: none; }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -77,6 +77,38 @@ export default function BookingPage() {
   /* Booking state */
   const [submitting, setSubmitting] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
+
+  /* Vehicle availability counts */
+  const [availCounts, setAvailCounts] = useState<Record<string, number>>({});
+  const [availLoaded, setAvailLoaded] = useState(false);
+  const [availWarning, setAvailWarning] = useState('');
+
+  useEffect(() => {
+    if (step === 2 && !availLoaded) {
+      fetch('/api/vehicles/available')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.vehicles) {
+            const counts: Record<string, number> = {};
+            for (const v of data.vehicles as { vehicle_type: string }[]) {
+              counts[v.vehicle_type] = (counts[v.vehicle_type] || 0) + 1;
+            }
+            setAvailCounts(counts);
+          }
+          setAvailLoaded(true);
+        })
+        .catch(() => setAvailLoaded(true));
+    }
+  }, [step, availLoaded]);
+
+  // If selected vehicle type becomes unavailable, show warning
+  useEffect(() => {
+    if (vehicle && availLoaded && (availCounts[vehicle] || 0) === 0) {
+      setAvailWarning(`No ${PRICING_TABLE[vehicle].label} vehicles currently available. Your booking will be queued.`);
+    } else {
+      setAvailWarning('');
+    }
+  }, [vehicle, availCounts, availLoaded]);
 
   /* Distance heuristic */
   function estimateDistance(): number {
@@ -236,17 +268,24 @@ export default function BookingPage() {
               ))}
             </div>
 
+            {/* Availability warning */}
+            {availWarning && (
+              <div className={s.vehicleWarning}>{availWarning}</div>
+            )}
+
             {/* Horizontal scrollable vehicle cards */}
             <div className={s.vehicleScroll}>
               {VEHICLE_TYPES.map((vt) => {
                 const p = PRICING_TABLE[vt];
                 const q = calculateQuote(vt, estimateDistance());
                 const selected = vehicle === vt;
+                const count = availCounts[vt] || 0;
+                const isDisabled = availLoaded && count === 0;
                 return (
                   <div
                     key={vt}
-                    className={`${s.vehicleCard} ${selected ? s.vehicleCardSelected : ''}`}
-                    onClick={() => setVehicle(vt)}
+                    className={`${s.vehicleCard} ${selected ? s.vehicleCardSelected : ''} ${isDisabled ? s.vehicleCardDisabled : ''}`}
+                    onClick={() => !isDisabled && setVehicle(vt)}
                   >
                     {selected && (
                       <div className={s.vehicleCheck}><CheckIcon /></div>
@@ -255,6 +294,11 @@ export default function BookingPage() {
                     <div className={s.vehicleName}>{p.label}</div>
                     <div className={s.vehicleCap}>{p.capacity}</div>
                     <div className={s.vehiclePrice}>R{q.total.toLocaleString()}</div>
+                    {availLoaded && (
+                      <div className={count > 0 ? s.vehicleAvail : s.vehicleAvailNone}>
+                        {count > 0 ? `${count} available` : 'None available'}
+                      </div>
+                    )}
                   </div>
                 );
               })}

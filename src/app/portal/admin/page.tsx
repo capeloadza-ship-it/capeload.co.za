@@ -3,23 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
+import { useRealtimeBookings } from '@/hooks/useRealtimeBookings';
 import { PRICING_TABLE } from '@/lib/pricing';
 import styles from './page.module.css';
 
 type Panel = 'bookings' | 'fleet' | 'drivers' | 'clients' | 'notifications';
-
-interface Booking {
-  id: string;
-  ref: string;
-  client_name: string;
-  job_type: string;
-  pickup: string;
-  dropoff: string;
-  vehicle_type: string;
-  status: string;
-  total: number;
-  created_at: string;
-}
 
 interface Vehicle {
   id: string;
@@ -29,6 +17,8 @@ interface Vehicle {
   reg_plate: string;
   status: string;
   available: boolean;
+  availability_status: string;
+  driver_id: string;
   driver_name: string;
 }
 
@@ -51,6 +41,19 @@ interface Client {
   status: string;
 }
 
+interface AvailableVehicle {
+  id: string;
+  make: string;
+  model: string;
+  vehicle_type: string;
+  reg_plate: string;
+}
+
+interface ApprovedDriver {
+  id: string;
+  full_name: string;
+}
+
 const NAV_ITEMS: { key: Panel; label: string; section?: string }[] = [
   { key: 'bookings', label: 'Bookings', section: 'Overview' },
   { key: 'fleet', label: 'Fleet' },
@@ -62,14 +65,33 @@ const NAV_ITEMS: { key: Panel; label: string; section?: string }[] = [
 const vehicleLabel = (type: string) =>
   PRICING_TABLE[type as keyof typeof PRICING_TABLE]?.label || type;
 
-const statusBadge = (status: string) => {
+const statusBadge = (status: string, module = styles) => {
+  const map: Record<string, { cls: string; label: string }> = {
+    pending: { cls: module.badgeOrange, label: 'Pending' },
+    assigned: { cls: module.badgeBlue, label: 'Assigned' },
+    active: { cls: module.badgeBlue, label: 'In Progress' },
+    in_progress: { cls: module.badgeBlue, label: 'In Progress' },
+    completed: { cls: module.badgeGreen, label: 'Completed' },
+    cancelled: { cls: module.badgeRed, label: 'Cancelled' },
+    unassigned: { cls: module.badgeYellow, label: 'Unassigned' },
+    approved: { cls: module.badgeGreen, label: 'Approved' },
+    available: { cls: module.badgeGreen, label: 'Available' },
+    unavailable: { cls: module.badgeRed, label: 'Unavailable' },
+    maintenance: { cls: module.badgeYellow, label: 'Maintenance' },
+  };
+  const entry = map[status] || { cls: module.badgeOrange, label: status };
+  return <span className={`${module.badge} ${entry.cls}`}>{entry.label}</span>;
+};
+
+const driverStatusBadge = (status: string | null) => {
+  if (!status) return null;
   const map: Record<string, { cls: string; label: string }> = {
     pending: { cls: styles.badgeOrange, label: 'Pending' },
-    active: { cls: styles.badgeBlue, label: 'In Progress' },
-    completed: { cls: styles.badgeGreen, label: 'Completed' },
-    cancelled: { cls: styles.badgeRed, label: 'Cancelled' },
-    unassigned: { cls: styles.badgeYellow, label: 'Unassigned' },
-    approved: { cls: styles.badgeGreen, label: 'Approved' },
+    accepted: { cls: styles.badgeBlue, label: 'Accepted' },
+    on_the_way: { cls: styles.badgeBlue, label: 'On the Way' },
+    picked_up: { cls: styles.badgeOrange, label: 'Picked Up' },
+    delivered: { cls: styles.badgeGreen, label: 'Delivered' },
+    declined: { cls: styles.badgeRed, label: 'Declined' },
   };
   const entry = map[status] || { cls: styles.badgeOrange, label: status };
   return <span className={`${styles.badge} ${entry.cls}`}>{entry.label}</span>;
@@ -77,26 +99,28 @@ const statusBadge = (status: string) => {
 
 export default function AdminPortal() {
   const [activePanel, setActivePanel] = useState<Panel>('bookings');
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const { bookings } = useRealtimeBookings({ all: true });
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [stats, setStats] = useState({ todayBookings: 0, activeVehicles: 0, pendingApprovals: 0, weeklyRevenue: 0 });
 
+  // Assign modal state
+  const [assignBookingId, setAssignBookingId] = useState<string | null>(null);
+  const [assignVehicleId, setAssignVehicleId] = useState('');
+  const [assignDriverId, setAssignDriverId] = useState('');
+  const [availableVehicles, setAvailableVehicles] = useState<AvailableVehicle[]>([]);
+  const [approvedDrivers, setApprovedDrivers] = useState<ApprovedDriver[]>([]);
+  const [assignLoading, setAssignLoading] = useState(false);
+
+  // Notifications
   const [notifRecipient, setNotifRecipient] = useState('');
-  const [notifChannel, setNotifChannel] = useState('whatsapp');
+  const [notifChannel, setNotifChannel] = useState('in_app');
   const [notifMessage, setNotifMessage] = useState('');
+  const [notifSending, setNotifSending] = useState(false);
+  const [notifSuccess, setNotifSuccess] = useState('');
 
   const supabase = createClient();
-
-  const loadBookings = useCallback(async () => {
-    const { data } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(50);
-    if (data) setBookings(data as Booking[]);
-  }, []);
 
   const loadFleet = useCallback(async () => {
     const { data } = await supabase
@@ -139,7 +163,7 @@ export default function AdminPortal() {
 
     const [todayRes, vehicleRes, pendingRes, revenueRes] = await Promise.all([
       supabase.from('bookings').select('id', { count: 'exact', head: true }).gte('created_at', today),
-      supabase.from('vehicles').select('id', { count: 'exact', head: true }).eq('available', true),
+      supabase.from('vehicles').select('id', { count: 'exact', head: true }).eq('availability_status', 'available'),
       supabase.from('drivers').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       supabase.from('bookings').select('total').gte('created_at', weekAgo),
     ]);
@@ -154,14 +178,132 @@ export default function AdminPortal() {
 
   useEffect(() => {
     loadStats();
-    loadBookings();
-  }, [loadStats, loadBookings]);
+  }, [loadStats]);
 
   useEffect(() => {
     if (activePanel === 'fleet') loadFleet();
     if (activePanel === 'drivers') loadDrivers();
     if (activePanel === 'clients') loadClients();
   }, [activePanel, loadFleet, loadDrivers, loadClients]);
+
+  // Open assign modal
+  async function openAssignModal(bookingId: string) {
+    setAssignBookingId(bookingId);
+    setAssignVehicleId('');
+    setAssignDriverId('');
+
+    try {
+      const [vRes, dRes] = await Promise.all([
+        fetch('/api/vehicles/available'),
+        supabase.from('drivers').select('id, full_name').eq('status', 'approved'),
+      ]);
+      if (vRes.ok) {
+        const vData = await vRes.json();
+        setAvailableVehicles(vData.vehicles || []);
+      }
+      if (dRes.data) {
+        setApprovedDrivers(dRes.data as ApprovedDriver[]);
+      }
+    } catch {
+      // silently fail, user can retry
+    }
+  }
+
+  async function handleAssign() {
+    if (!assignBookingId || !assignVehicleId || !assignDriverId) return;
+    setAssignLoading(true);
+    try {
+      const res = await fetch(`/api/bookings/${assignBookingId}/assign`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vehicleId: assignVehicleId, driverId: assignDriverId }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || 'Assignment failed');
+      } else {
+        setAssignBookingId(null);
+      }
+    } catch {
+      alert('Network error. Try again.');
+    } finally {
+      setAssignLoading(false);
+    }
+  }
+
+  async function handleCancelBooking(bookingId: string) {
+    if (!confirm('Cancel this booking?')) return;
+    try {
+      const res = await fetch(`/api/bookings/${bookingId}/cancel`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reason: 'Cancelled by admin' }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || 'Cancel failed');
+      }
+    } catch {
+      alert('Network error. Try again.');
+    }
+  }
+
+  async function handleApproveDriver(driverId: string) {
+    try {
+      const res = await fetch(`/api/admin/drivers/${driverId}/approve`, { method: 'POST' });
+      if (res.ok) {
+        setDrivers((prev) => prev.map((d) => (d.id === driverId ? { ...d, status: 'approved' } : d)));
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Approval failed');
+      }
+    } catch {
+      alert('Network error. Try again.');
+    }
+  }
+
+  async function handleRejectDriver(driverId: string) {
+    if (!confirm('Reject this driver?')) return;
+    try {
+      const res = await fetch(`/api/admin/drivers/${driverId}/reject`, { method: 'POST' });
+      if (res.ok) {
+        setDrivers((prev) => prev.map((d) => (d.id === driverId ? { ...d, status: 'rejected' } : d)));
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Rejection failed');
+      }
+    } catch {
+      alert('Network error. Try again.');
+    }
+  }
+
+  async function handleSendNotification() {
+    if (!notifRecipient || !notifMessage.trim()) return;
+    setNotifSending(true);
+    setNotifSuccess('');
+    try {
+      const res = await fetch('/api/notifications/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipient: notifRecipient,
+          channel: notifChannel,
+          message: notifMessage,
+        }),
+      });
+      if (res.ok) {
+        setNotifSuccess('Notification sent successfully');
+        setNotifMessage('');
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Send failed');
+      }
+    } catch {
+      alert('Network error. Try again.');
+    } finally {
+      setNotifSending(false);
+    }
+  }
 
   const panelTitle: Record<Panel, string> = {
     bookings: 'Bookings',
@@ -222,7 +364,7 @@ export default function AdminPortal() {
             </div>
           </div>
 
-          {/* Bookings Panel */}
+          {/* ═══ Bookings Panel ═══ */}
           {activePanel === 'bookings' && (
             <div className={styles.card}>
               <div className={styles.cardHeader}>
@@ -237,6 +379,7 @@ export default function AdminPortal() {
                       <th>Type</th>
                       <th>Route</th>
                       <th>Vehicle</th>
+                      <th>Driver</th>
                       <th>Status</th>
                       <th>Actions</th>
                     </tr>
@@ -249,12 +392,37 @@ export default function AdminPortal() {
                         <td>{b.job_type}</td>
                         <td>{(b.pickup || '').split(',')[0]} &rarr; {(b.dropoff || '').split(',')[0]}</td>
                         <td>{vehicleLabel(b.vehicle_type)}</td>
-                        <td>{statusBadge(b.status)}</td>
-                        <td><button className={styles.btnOutline}>View</button></td>
+                        <td>{b.driver_name || '—'}</td>
+                        <td>
+                          <div className={styles.badgeStack}>
+                            {statusBadge(b.status)}
+                            {driverStatusBadge(b.driver_status)}
+                          </div>
+                        </td>
+                        <td>
+                          {b.status === 'pending' && (
+                            <>
+                              <button className={styles.btnPrimary} onClick={() => openAssignModal(b.id)}>
+                                Assign
+                              </button>{' '}
+                              <button className={styles.btnRed} onClick={() => handleCancelBooking(b.id)}>
+                                Cancel
+                              </button>
+                            </>
+                          )}
+                          {(b.status === 'assigned' || b.status === 'active') && (
+                            <button className={styles.btnRed} onClick={() => handleCancelBooking(b.id)}>
+                              Cancel
+                            </button>
+                          )}
+                          {b.status === 'completed' && (
+                            <button className={styles.btnOutline} disabled>Done</button>
+                          )}
+                        </td>
                       </tr>
                     ))}
                     {bookings.length === 0 && (
-                      <tr><td colSpan={7} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 32 }}>No bookings found</td></tr>
+                      <tr><td colSpan={8} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 32 }}>No bookings found</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -262,7 +430,7 @@ export default function AdminPortal() {
             </div>
           )}
 
-          {/* Fleet Panel */}
+          {/* ═══ Fleet Panel ═══ */}
           {activePanel === 'fleet' && (
             <div className={styles.card}>
               <div className={styles.cardHeader}>
@@ -276,25 +444,36 @@ export default function AdminPortal() {
                       <th>Owner</th>
                       <th>Type</th>
                       <th>Plate</th>
-                      <th>Status</th>
-                      <th>Available</th>
+                      <th>Availability</th>
+                      <th>Active Booking</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {vehicles.map((v) => (
-                      <tr key={v.id}>
-                        <td>{v.make} {v.model}</td>
-                        <td>{v.driver_name}</td>
-                        <td>{vehicleLabel(v.vehicle_type)}</td>
-                        <td>{v.reg_plate}</td>
-                        <td>{statusBadge(v.status)}</td>
-                        <td>
-                          <span className={`${styles.badge} ${v.available ? styles.badgeGreen : styles.badgeRed}`}>
-                            {v.available ? 'Yes' : 'No'}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                    {vehicles.map((v) => {
+                      const activeBooking = bookings.find(
+                        (b) =>
+                          (b.status === 'active' || b.status === 'assigned') &&
+                          b.driver_id === v.driver_id
+                      );
+                      return (
+                        <tr key={v.id}>
+                          <td>{v.make} {v.model}</td>
+                          <td>{v.driver_name}</td>
+                          <td>{vehicleLabel(v.vehicle_type)}</td>
+                          <td>{v.reg_plate}</td>
+                          <td>{statusBadge(v.availability_status || (v.available ? 'available' : 'unavailable'))}</td>
+                          <td>
+                            {activeBooking ? (
+                              <span style={{ fontSize: 12 }}>
+                                {activeBooking.ref} — {(activeBooking.pickup || '').split(',')[0]}
+                              </span>
+                            ) : (
+                              <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>None</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                     {vehicles.length === 0 && (
                       <tr><td colSpan={6} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 32 }}>No vehicles found</td></tr>
                     )}
@@ -304,7 +483,7 @@ export default function AdminPortal() {
             </div>
           )}
 
-          {/* Drivers Panel */}
+          {/* ═══ Drivers Panel ═══ */}
           {activePanel === 'drivers' && (
             <div className={styles.card}>
               <div className={styles.cardHeader}>
@@ -348,8 +527,8 @@ export default function AdminPortal() {
                           <td>
                             {d.status === 'pending' ? (
                               <>
-                                <button className={styles.btnGreen}>Approve</button>{' '}
-                                <button className={styles.btnRed}>Reject</button>
+                                <button className={styles.btnGreen} onClick={() => handleApproveDriver(d.id)}>Approve</button>{' '}
+                                <button className={styles.btnRed} onClick={() => handleRejectDriver(d.id)}>Reject</button>
                               </>
                             ) : (
                               <button className={styles.btnOutline}>View</button>
@@ -367,7 +546,7 @@ export default function AdminPortal() {
             </div>
           )}
 
-          {/* Clients Panel */}
+          {/* ═══ Clients Panel ═══ */}
           {activePanel === 'clients' && (
             <div className={styles.card}>
               <div className={styles.cardHeader}>
@@ -407,7 +586,7 @@ export default function AdminPortal() {
             </div>
           )}
 
-          {/* Notifications Panel */}
+          {/* ═══ Notifications Panel ═══ */}
           {activePanel === 'notifications' && (
             <div className={styles.card}>
               <div className={styles.cardHeader}>
@@ -429,12 +608,12 @@ export default function AdminPortal() {
                 <label className={styles.formLabel}>Channel</label>
                 <div className={styles.radioGroup}>
                   <label className={styles.radioLabel}>
-                    <input type="radio" name="channel" value="whatsapp" checked={notifChannel === 'whatsapp'} onChange={() => setNotifChannel('whatsapp')} />
-                    WhatsApp
+                    <input type="radio" name="channel" value="in_app" checked={notifChannel === 'in_app'} onChange={() => setNotifChannel('in_app')} />
+                    In-App
                   </label>
                   <label className={styles.radioLabel}>
-                    <input type="radio" name="channel" value="sms" checked={notifChannel === 'sms'} onChange={() => setNotifChannel('sms')} />
-                    SMS
+                    <input type="radio" name="channel" value="email" checked={notifChannel === 'email'} onChange={() => setNotifChannel('email')} />
+                    Email
                   </label>
                 </div>
               </div>
@@ -447,13 +626,73 @@ export default function AdminPortal() {
                   onChange={(e) => setNotifMessage(e.target.value)}
                 />
               </div>
-              <button className={styles.btnPrimary} style={{ padding: '12px 24px' }}>
-                Send notification
+              {notifSuccess && (
+                <div style={{ color: 'var(--green)', fontSize: 13, fontWeight: 600, marginBottom: 12 }}>
+                  {notifSuccess}
+                </div>
+              )}
+              <button
+                className={`${styles.btnPrimary} ${notifSending ? styles.btnLoading : ''}`}
+                style={{ padding: '12px 24px' }}
+                disabled={notifSending || !notifRecipient || !notifMessage.trim()}
+                onClick={handleSendNotification}
+              >
+                {notifSending ? 'Sending...' : 'Send notification'}
               </button>
             </div>
           )}
         </div>
       </div>
+
+      {/* ═══ Assign Modal ═══ */}
+      {assignBookingId && (
+        <div className={styles.modalOverlay} onClick={() => setAssignBookingId(null)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalTitle}>Assign Driver &amp; Vehicle</div>
+
+            <label className={styles.formLabel}>Vehicle</label>
+            <select
+              className={styles.formInput}
+              value={assignVehicleId}
+              onChange={(e) => setAssignVehicleId(e.target.value)}
+            >
+              <option value="">Select a vehicle</option>
+              {availableVehicles.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.make} {v.model} — {v.reg_plate} ({vehicleLabel(v.vehicle_type)})
+                </option>
+              ))}
+            </select>
+
+            <label className={styles.formLabel}>Driver</label>
+            <select
+              className={styles.formInput}
+              value={assignDriverId}
+              onChange={(e) => setAssignDriverId(e.target.value)}
+            >
+              <option value="">Select a driver</option>
+              {approvedDrivers.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.full_name}
+                </option>
+              ))}
+            </select>
+
+            <div className={styles.modalActions}>
+              <button
+                className={styles.btnPrimary}
+                disabled={assignLoading || !assignVehicleId || !assignDriverId}
+                onClick={handleAssign}
+              >
+                {assignLoading ? 'Assigning...' : 'Assign'}
+              </button>
+              <button className={styles.btnOutline} onClick={() => setAssignBookingId(null)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
