@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 interface AddressAutocompleteProps {
   value: string;
   onChange: (value: string) => void;
+  onPlaceSelect?: (coords: { lat: number; lng: number } | null) => void;
   placeholder?: string;
   className?: string;
 }
@@ -12,6 +13,7 @@ interface AddressAutocompleteProps {
 export default function AddressAutocomplete({
   value,
   onChange,
+  onPlaceSelect,
   placeholder = 'Enter address',
   className,
 }: AddressAutocompleteProps) {
@@ -56,8 +58,14 @@ export default function AddressAutocomplete({
       } else if (place?.name) {
         onChange(place.name);
       }
+      if (onPlaceSelect && place?.geometry?.location) {
+        onPlaceSelect({
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        });
+      }
     });
-  }, [loaded, onChange]);
+  }, [loaded, onChange, onPlaceSelect]);
 
   return (
     <input

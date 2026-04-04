@@ -1,599 +1,574 @@
 /* ═══════════════════════════════════════
-   BOOKING PAGE — page.module.css
-   Light theme, CSS Modules scoped
+   BOOKING PAGE — e-hailing style
+   Full-screen map + bottom sheet
 ═══════════════════════════════════════ */
 
-/* ── Nav ── */
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid var(--card-border);
+/* ── Page shell ── */
+.page {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: #1d1d2b;
 }
-.navInner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
+
+/* ── Map layer ── */
+.mapLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ── Floating top bar ── */
+.topBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 16px 20px;
+  pointer-events: none;
 }
 .logo {
-  display: flex;
-  align-items: center;
-}
-.logo img {
-  height: 48px;
-  width: auto;
-}
-.navBack {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  transition: color 0.2s;
-}
-.navBack:hover {
-  color: var(--orange);
-}
-.navBack svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* ── Layout ── */
-.bookingLayout {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 40px 24px 80px;
-}
-.bookingHeader {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.bookingHeader h1 {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-.bookingHeader p {
-  font-size: 15px;
-  color: var(--text-secondary);
-}
-
-/* ── Stepper ── */
-.stepper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  margin-bottom: 40px;
-}
-.stepperStep {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.stepperNum {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  border: 2px solid var(--card-border);
-  color: var(--text-muted);
-  background: var(--card-bg);
-  transition: all 0.3s;
-}
-.stepperStepActive .stepperNum {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: #fff;
-}
-.stepperStepDone .stepperNum {
-  background: #22c55e;
-  border-color: #22c55e;
-  color: #fff;
-}
-.stepperLabel {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: color 0.3s;
-}
-.stepperStepActive .stepperLabel {
-  color: var(--text-primary);
-}
-.stepperStepDone .stepperLabel {
-  color: #22c55e;
-}
-.stepperLine {
-  width: 48px;
-  height: 2px;
-  background: var(--card-border);
-  margin: 0 12px;
-  transition: background 0.3s;
-}
-.stepperLineDone {
-  background: #22c55e;
-}
-
-/* ── Step Panels ── */
-.stepPanel {
-  display: none;
-  animation: fadeIn 0.35s ease;
-}
-.stepPanelActive {
-  display: block;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Cards ── */
-.card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  display: inline-flex;
+  pointer-events: auto;
+  background: rgba(255, 255, 255, 0.92);
   border-radius: 24px;
-  padding: 28px;
-  margin-bottom: 24px;
+  padding: 6px 16px;
 }
-.cardTitle {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
+
+/* ── Bottom sheet ── */
+.sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 12px 20px 32px;
+  transition: max-height 0.3s ease;
+}
+.sheetHandle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: #d4d4d4;
+  margin: 0 auto 16px;
+}
+.sheetTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
   margin-bottom: 20px;
 }
 
-/* ── Job Type Selector ── */
-.jobTypes {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+/* ── Step panels ── */
+.stepPanel {
+  animation: slideUp 0.3s ease;
 }
-.jobType {
-  position: relative;
-  background: var(--input-bg);
-  border: 2px solid var(--card-border);
-  border-radius: 24px;
-  padding: 24px 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s;
-}
-.jobType:hover {
-  border-color: #ccc;
-}
-.jobTypeSelected {
-  border-color: var(--orange);
-  background: var(--orange-light);
-}
-.jobTypeIcon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 12px;
-  background: rgba(241, 95, 34, 0.08);
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.jobTypeSelected .jobTypeIcon {
-  background: rgba(241, 95, 34, 0.15);
-}
-.jobTypeIcon svg {
-  width: 24px;
-  height: 24px;
-  fill: var(--orange);
-}
-.jobType h3 {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-.jobType p {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-.checkMark {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--orange);
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-.jobTypeSelected .checkMark {
-  display: flex;
-}
-.checkMark svg {
-  width: 12px;
-  height: 12px;
-  fill: #fff;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Vehicle Picker ── */
-.vehiclesGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-top: 16px;
-}
-.vehicleOption {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px;
-  background: var(--input-bg);
-  border: 2px solid var(--card-border);
-  border-radius: 24px;
-  cursor: pointer;
-  transition: all 0.25s;
-}
-.vehicleOption:hover {
-  border-color: #ccc;
-}
-.vehicleOptionSelected {
-  border-color: var(--orange);
-  background: var(--orange-light);
-}
-.vehicleOptionIcon {
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
-  background: rgba(241, 95, 34, 0.08);
-  border-radius: 24px;
-  display: flex;
+/* ── Back button ── */
+.backBtn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
 }
-.vehicleOptionSelected .vehicleOptionIcon {
-  background: rgba(241, 95, 34, 0.15);
+.backBtn:hover {
+  border-color: #aaa;
 }
-.vehicleOptionIcon svg {
-  width: 22px;
-  height: 22px;
-  fill: var(--orange);
+.backBtn svg {
+  width: 18px;
+  height: 18px;
+  color: #333;
 }
-.vehicleOptionInfo h4 {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
+
+/* ═══ STEP 1: Route inputs ═══ */
+.routeInputs {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
 }
-.vehicleOptionInfo p {
+.routeDots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 18px;
+  gap: 0;
+  min-width: 14px;
+}
+.dotGreen {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+.dotLine {
+  width: 2px;
+  flex: 1;
+  min-height: 28px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #ccc 0,
+    #ccc 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+.dotOrange {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f15f22;
+  flex-shrink: 0;
+}
+.routeFields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.routeInput {
+  width: 100%;
+  padding: 16px 14px;
+  border: none;
+  font-size: 15px;
+  font-family: inherit;
+  background: #f5f5f5;
+  color: #111;
+  outline: none;
+  transition: background 0.2s;
+}
+.routeInput:first-child {
+  border-radius: 14px 14px 0 0;
+}
+.routeInput:last-child {
+  border-radius: 0 0 14px 14px;
+}
+.routeInput:focus {
+  background: #eee;
+}
+.routeInput::placeholder {
+  color: #999;
+}
+.routeDivider {
+  height: 1px;
+  background: #e0e0e0;
+}
+
+/* Date / time row */
+.dateTimeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.dtField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dtLabel {
   font-size: 12px;
-  color: var(--text-muted);
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.vehicleCheckMark {
+.dtInput {
+  padding: 14px 12px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f9f9f9;
+  color: #111;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.dtInput:focus {
+  border-color: #f15f22;
+}
+
+/* ═══ STEP 2: Vehicle + Job type ═══ */
+
+/* Job type tabs */
+.jobTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.jobTab {
+  flex: 1;
+  padding: 10px 0;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.jobTab:hover {
+  border-color: #ccc;
+}
+.jobTabActive {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+/* Horizontal scrollable vehicle cards */
+.vehicleScroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.vehicleScroll::-webkit-scrollbar {
+  display: none;
+}
+.vehicleCard {
+  position: relative;
+  flex: 0 0 130px;
+  border: 2px solid #e8e8e8;
+  border-radius: 18px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+}
+.vehicleCard:hover {
+  border-color: #ccc;
+}
+.vehicleCardSelected {
+  border-color: #f15f22;
+  background: #fff7f4;
+}
+.vehicleCheck {
   position: absolute;
   top: 8px;
   right: 8px;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--orange);
-  display: none;
+  background: #f15f22;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
-.vehicleOptionSelected .vehicleCheckMark {
-  display: flex;
+.vehicleCheck svg {
+  width: 12px;
+  height: 12px;
 }
-.vehicleCheckMark svg {
-  width: 11px;
-  height: 11px;
-  fill: #fff;
-}
-.vehicleSuggest {
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: var(--blue-light);
-  border-radius: 24px;
-  font-size: 13px;
-  color: var(--blue);
+.vehicleIcon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 8px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
 }
-.vehicleSuggest svg {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  fill: var(--blue);
+.vehicleIcon svg {
+  width: 32px;
+  height: 32px;
+  color: #f15f22;
+}
+.vehicleName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+.vehicleCap {
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 8px;
+}
+.vehiclePrice {
+  font-size: 14px;
+  font-weight: 800;
+  color: #f15f22;
 }
 
-/* ── Form Inputs ── */
-.formGroup {
+/* Live price strip */
+.livePrice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: #111;
+  border-radius: 14px;
   margin-bottom: 20px;
 }
-.formGroup label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-}
-.formRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.inputWrapper {
-  position: relative;
-}
-.inputWrapper svg {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  fill: var(--text-muted);
-  pointer-events: none;
-}
-.input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid var(--input-border);
-  border-radius: 24px;
+.livePriceLabel {
   font-size: 14px;
-  font-family: inherit;
-  background: var(--input-bg);
-  color: var(--text-primary);
-  transition: all 0.2s;
-  outline: none;
+  font-weight: 600;
+  color: #aaa;
 }
-.inputWithIcon {
-  padding-left: 42px;
-}
-.input:focus {
-  border-color: var(--orange);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(241, 95, 34, 0.1);
-}
-.textarea {
-  composes: input;
-  resize: vertical;
-  min-height: 80px;
+.livePriceValue {
+  font-size: 22px;
+  font-weight: 900;
+  color: #f15f22;
 }
 
-/* ── Quote Summary ── */
-.quoteBox {
-  background: #1a1a2e;
-  border-radius: 24px;
-  padding: 32px;
-  color: #fff;
+/* ═══ STEP 3: Details + Payment ═══ */
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 24px;
 }
-.quoteLabel {
-  font-size: 13px;
-  font-weight: 600;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+.formInput {
+  width: 100%;
+  padding: 16px 14px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #f9f9f9;
+  color: #111;
+  outline: none;
+  transition: border-color 0.2s;
 }
-.quotePrice {
-  font-size: 48px;
-  font-weight: 900;
-  color: var(--orange);
-  line-height: 1;
-  margin-bottom: 4px;
+.formInput:focus {
+  border-color: #f15f22;
 }
-.quotePricePrefix {
-  font-size: 20px;
-  font-weight: 600;
-  color: #888;
+.formInput::placeholder {
+  color: #999;
 }
-.quoteNote {
-  font-size: 13px;
-  color: #666;
+
+/* Payment section */
+.paySection {
   margin-bottom: 24px;
 }
-.quoteBreakdown {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 20px;
+.payTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 12px;
+}
+.payOptions {
+  display: flex;
+  gap: 10px;
+}
+.payOption {
+  flex: 1;
+  padding: 14px 10px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.payOption:hover {
+  border-color: #ccc;
+}
+.payOptionActive {
+  border-color: #f15f22;
+  background: #fff7f4;
+}
+.payOptionLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+}
+.payOptionDesc {
+  display: block;
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* Quote summary */
+.quoteSummary {
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  margin-bottom: 24px;
 }
 .quoteRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
+  padding: 6px 0;
   font-size: 14px;
+  color: #666;
 }
-.quoteRowLabel {
-  color: #888;
-}
-.quoteRowValue {
-  color: #ddd;
+.quoteRow span:last-child {
   font-weight: 600;
+  color: #333;
 }
 .quoteRowTotal {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #eee;
   margin-top: 8px;
-  padding-top: 16px;
-}
-.quoteRowTotal .quoteRowLabel {
-  color: #fff;
+  padding-top: 12px;
   font-weight: 700;
 }
-.quoteRowTotal .quoteRowValue {
-  color: var(--orange);
+.quoteRowTotal span:first-child {
+  color: #111;
+  font-size: 16px;
+}
+.quoteRowTotal span:last-child {
+  color: #f15f22;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
-/* ── Payment Method ── */
-.paymentGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.paymentOption {
-  position: relative;
-  background: var(--input-bg);
-  border: 2px solid var(--card-border);
-  border-radius: 24px;
-  padding: 20px 16px;
+/* ═══ STEP 4: Confirmation ═══ */
+.confirmBlock {
   text-align: center;
-  cursor: pointer;
-  transition: all 0.25s;
+  padding: 24px 0 16px;
 }
-.paymentOption:hover {
-  border-color: #ccc;
-}
-.paymentOptionSelected {
-  border-color: var(--orange);
-  background: var(--orange-light);
-}
-.paymentIcon {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 10px;
-  background: rgba(241, 95, 34, 0.08);
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.paymentOptionSelected .paymentIcon {
-  background: rgba(241, 95, 34, 0.15);
-}
-.paymentIcon svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--orange);
-}
-.paymentOption h4 {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-.paymentOption p {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-/* ── Confirmation ── */
-.confirmation {
-  text-align: center;
-  padding: 40px 20px;
-}
-.confirmationIcon {
-  width: 80px;
-  height: 80px;
+.confirmCircle {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: #dcfce7;
-  margin: 0 auto 24px;
+  background: #22c55e;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.confirmationIcon svg {
-  width: 40px;
-  height: 40px;
-  fill: #22c55e;
+.confirmCircle svg {
+  width: 32px;
+  height: 32px;
 }
-.confirmation h2 {
-  font-size: 24px;
+.confirmTitle {
+  font-size: 22px;
   font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 8px;
+  color: #111;
+  margin-bottom: 6px;
 }
-.confirmation p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
+.confirmSub {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
 }
-.refNum {
+.refBadge {
   display: inline-block;
-  padding: 6px 16px;
-  background: var(--orange-light);
-  border-radius: 8px;
+  padding: 6px 18px;
+  background: #fff7f4;
+  border-radius: 24px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--orange);
-  margin: 16px 0 32px;
+  color: #f15f22;
+  margin-bottom: 12px;
 }
-.confirmationActions {
+.confirmNote {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 24px;
+}
+.confirmActions {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* ── Buttons ── */
-.btn {
-  display: inline-flex;
+/* ═══ Buttons ═══ */
+.btnPrimary {
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 28px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
   border: none;
   cursor: pointer;
-  transition: opacity 0.2s, background 0.2s;
-  font-family: inherit;
-}
-.btn:hover {
-  opacity: 0.85;
-}
-.btnPrimary {
-  composes: btn;
-  background: var(--orange);
+  background: #f15f22;
   color: #fff;
+  transition: opacity 0.2s;
 }
-.btnSecondary {
-  composes: btn;
-  background: #fff;
-  color: var(--text-primary);
-  border: 1px solid var(--card-border);
+.btnPrimary:hover {
+  opacity: 0.9;
 }
-.btnSecondary:hover {
-  border-color: #bbb;
-  opacity: 1;
-}
-.btnWa {
-  composes: btn;
-  background: #25d366;
-  color: #fff;
-}
-.btn svg {
-  width: 16px;
-  height: 16px;
+.btnPrimary svg {
+  width: 18px;
+  height: 18px;
 }
 .btnDisabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
 }
-
-/* ── Step Navigation ── */
-.stepNav {
+.btnWa {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  background: #25d366;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.btnWa:hover {
+  opacity: 0.9;
+}
+.btnWa svg {
+  width: 20px;
+  height: 20px;
+}
+.btnSecondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1.5px solid #e0e0e0;
+  cursor: pointer;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.btnSecondary:hover {
+  border-color: #aaa;
 }
 
-/* ── Loading spinner ── */
+/* Spinner */
 .spinner {
+  display: inline-block;
   width: 18px;
   height: 18px;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -605,41 +580,36 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Responsive ── */
-@media (max-width: 640px) {
-  .jobTypes {
-    grid-template-columns: 1fr;
+/* ═══ Responsive ═══ */
+
+/* Desktop: constrain sheet width */
+@media (min-width: 768px) {
+  .sheet {
+    max-width: 420px;
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    border-radius: 24px;
+    max-height: calc(100vh - 48px);
   }
-  .vehiclesGrid {
-    grid-template-columns: 1fr;
+}
+
+/* Mobile: map takes top half, sheet takes bottom */
+@media (max-width: 767px) {
+  .sheet {
+    max-height: 60vh;
   }
-  .formRow {
-    grid-template-columns: 1fr;
+  .sheetTitle {
+    font-size: 20px;
   }
-  .paymentGrid {
-    grid-template-columns: 1fr;
+  .vehicleCard {
+    flex: 0 0 115px;
+    padding: 14px 10px;
   }
-  .stepperLabel {
-    display: none;
+  .vehicleName {
+    font-size: 12px;
   }
-  .stepperLine {
-    width: 32px;
-    margin: 0 6px;
-  }
-  .bookingHeader h1 {
-    font-size: 22px;
-  }
-  .card {
-    padding: 24px 20px;
-  }
-  .quotePrice {
-    font-size: 36px;
-  }
-  .confirmationActions {
-    flex-direction: column;
-  }
-  .btn {
-    width: 100%;
-    justify-content: center;
+  .livePriceValue {
+    font-size: 20px;
   }
 }
