@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -24,6 +24,24 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  // Auto-redirect if already logged in
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        supabase.from('users').select('role').eq('id', user.id).single().then(({ data: profile }) => {
+          if (profile?.role === 'super_admin' || profile?.role === 'admin' || user.email === 'capeload.za@gmail.com') {
+            router.push('/portal/admin');
+          } else if (profile?.role === 'driver') {
+            router.push('/portal/driver');
+          } else {
+            router.push('/portal/client');
+          }
+        });
+      }
+    });
+  }, [router]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -55,15 +73,18 @@ function LoginForm() {
       const supabase = createClient();
 
       if (mode === 'signup') {
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`,
-          },
         });
         if (signUpError) throw signUpError;
-        setSuccess('Check your email for a confirmation link.');
+        // Email confirmation disabled — user is logged in immediately
+        if (signUpData.user) {
+          await new Promise(r => setTimeout(r, 500));
+          router.push(redirect.startsWith('/portal') ? redirect : '/portal/client');
+          return;
+        }
+        setSuccess('Account created! Redirecting...');
         setLoading(false);
       } else {
         const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
