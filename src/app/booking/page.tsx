@@ -12,6 +12,7 @@ import {
   type JobType,
   type VehicleType,
 } from '@/lib/pricing';
+import AddressAutocomplete from '@/components/booking/AddressAutocomplete';
 import s from './page.module.css';
 
 /* ═══════════════════════════════════════
@@ -341,12 +342,11 @@ export default function BookingPage() {
               <label>Pickup address</label>
               <div className={s.inputWrapper}>
                 <MapPinIcon />
-                <input
-                  type="text"
+                <AddressAutocomplete
                   className={`${s.input} ${s.inputWithIcon}`}
                   placeholder="e.g. 12 Main Road, Claremont"
                   value={pickup}
-                  onChange={(e) => setPickup(e.target.value)}
+                  onChange={setPickup}
                 />
               </div>
             </div>
@@ -354,12 +354,11 @@ export default function BookingPage() {
               <label>Drop-off address</label>
               <div className={s.inputWrapper}>
                 <MapPinIcon />
-                <input
-                  type="text"
+                <AddressAutocomplete
                   className={`${s.input} ${s.inputWithIcon}`}
                   placeholder="e.g. 5 Strand Street, CBD"
                   value={dropoff}
-                  onChange={(e) => setDropoff(e.target.value)}
+                  onChange={setDropoff}
                 />
               </div>
             </div>

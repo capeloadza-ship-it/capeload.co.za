@@ -66,12 +66,30 @@ function LoginForm() {
         setSuccess('Check your email for a confirmation link.');
         setLoading(false);
       } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (signInError) throw signInError;
-        router.push(redirect);
+
+        // Check user role for smart redirect
+        if (redirect === '/') {
+          const { data: profile } = await supabase
+            .from('users')
+            .select('role')
+            .eq('id', signInData.user.id)
+            .single();
+
+          if (profile?.role === 'super_admin' || profile?.role === 'admin') {
+            router.push('/portal/admin');
+          } else if (profile?.role === 'driver') {
+            router.push('/portal/driver');
+          } else {
+            router.push('/portal/client');
+          }
+        } else {
+          router.push(redirect);
+        }
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Authentication failed';
