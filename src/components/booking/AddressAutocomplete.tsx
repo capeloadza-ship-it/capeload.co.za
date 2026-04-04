@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface AddressAutocompleteProps {
   value: string;
@@ -10,6 +10,12 @@ interface AddressAutocompleteProps {
   className?: string;
 }
 
+interface NominatimResult {
+  display_name: string;
+  lat: string;
+  lon: string;
+}
+
 export default function AddressAutocomplete({
   value,
   onChange,
@@ -17,65 +23,108 @@ export default function AddressAutocomplete({
   placeholder = 'Enter address',
   className,
 }: AddressAutocompleteProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-  const [loaded, setLoaded] = useState(false);
+  const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!apiKey || apiKey === 'placeholder') return;
+  const fetchSuggestions = useCallback(async (query: string) => {
+    if (query.length < 3) {
+      setSuggestions([]);
+      return;
+    }
 
-    // Load Google Maps script if not already loaded
-    if (!window.google?.maps?.places) {
-      const existing = document.querySelector('script[src*="maps.googleapis.com"]');
-      if (existing) {
-        existing.addEventListener('load', () => setLoaded(true));
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-      script.async = true;
-      script.defer = true;
-      script.onload = () => setLoaded(true);
-      document.head.appendChild(script);
-    } else {
-      setLoaded(true);
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=za&limit=5&addressdetails=1`,
+        { headers: { 'Accept-Language': 'en' } }
+      );
+      const data: NominatimResult[] = await res.json();
+      setSuggestions(data);
+      setShowDropdown(data.length > 0);
+    } catch {
+      setSuggestions([]);
     }
   }, []);
 
+  function handleInputChange(val: string) {
+    onChange(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchSuggestions(val), 300);
+  }
+
+  function handleSelect(result: NominatimResult) {
+    onChange(result.display_name);
+    setShowDropdown(false);
+    setSuggestions([]);
+    if (onPlaceSelect) {
+      onPlaceSelect({ lat: parseFloat(result.lat), lng: parseFloat(result.lon) });
+    }
+  }
+
+  // Close dropdown when clicking outside
   useEffect(() => {
-    if (!loaded || !inputRef.current || autocompleteRef.current) return;
-
-    autocompleteRef.current = new google.maps.places.Autocomplete(inputRef.current, {
-      componentRestrictions: { country: 'za' },
-      types: ['geocode', 'establishment'],
-    });
-
-    autocompleteRef.current.addListener('place_changed', () => {
-      const place = autocompleteRef.current?.getPlace();
-      if (place?.formatted_address) {
-        onChange(place.formatted_address);
-      } else if (place?.name) {
-        onChange(place.name);
+    function handleClickOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowDropdown(false);
       }
-      if (onPlaceSelect && place?.geometry?.location) {
-        onPlaceSelect({
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-        });
-      }
-    });
-  }, [loaded, onChange, onPlaceSelect]);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <input
-      ref={inputRef}
-      type="text"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      className={className}
-      autoComplete="off"
-    />
+    <div ref={wrapperRef} style={{ position: 'relative', width: '100%' }}>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => handleInputChange(e.target.value)}
+        onFocus={() => { setFocused(true); if (suggestions.length > 0) setShowDropdown(true); }}
+        onBlur={() => setFocused(false)}
+        placeholder={placeholder}
+        className={className}
+        autoComplete="off"
+      />
+      {showDropdown && focused && (
+        <div style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          right: 0,
+          background: '#fff',
+          border: '1px solid #e8e8e5',
+          borderRadius: '12px',
+          marginTop: '4px',
+          zIndex: 1000,
+          overflow: 'hidden',
+          maxHeight: '220px',
+          overflowY: 'auto',
+        }}>
+          {suggestions.map((s, i) => (
+            <button
+              key={i}
+              type="button"
+              onMouseDown={(e) => { e.preventDefault(); handleSelect(s); }}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '10px 14px',
+                border: 'none',
+                borderBottom: i < suggestions.length - 1 ? '1px solid #f0f0ee' : 'none',
+                background: 'transparent',
+                textAlign: 'left',
+                fontSize: '13px',
+                color: '#333',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              {s.display_name.length > 80 ? s.display_name.substring(0, 80) + '...' : s.display_name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
