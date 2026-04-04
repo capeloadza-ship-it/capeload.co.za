@@ -163,54 +163,41 @@
 .vehiclesHeader .sectionSubtitle { margin: 0 auto; }
 .vehiclesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 .vehicleCard {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: transparent;
+  border: none;
   border-radius: 24px;
-  padding: 28px 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: default;
-}
-.vehicleCard:hover {
-  border-color: var(--orange);
-}
-.vehicleCard {
   overflow: hidden;
+  cursor: default;
 }
 .vehicleImg {
   width: 100%;
-  height: 120px;
+  height: 220px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 14px;
+  border-radius: 24px;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .vehicleCard:hover .vehicleImg {
-  transform: scale(1.08);
+  transform: scale(1.03);
 }
 .vehicleCard h3 {
   font-size: 15px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  text-align: center;
 }
 .vehicleCard p {
   font-size: 13px;
   color: var(--text-muted);
+  text-align: center;
 }
 .capacity {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-size: 11px;
-  font-weight: 600;
-  background: rgba(43, 57, 144, 0.12);
-  color: #7a8fd4;
+  display: none;
 }
 
 /* ═══════════════════════════════════════
@@ -362,7 +349,7 @@
 .coverageMapOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(13,13,20,0.85) 0%, rgba(13,13,20,0.2) 50%, transparent 100%);
+  background: rgba(13,13,20,0.7);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
