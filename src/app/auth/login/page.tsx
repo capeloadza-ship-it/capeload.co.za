@@ -74,6 +74,9 @@ function LoginForm() {
 
         // Check user role for smart redirect
         if (redirect === '/') {
+          // Small delay to ensure session is established for RLS
+          await new Promise(r => setTimeout(r, 500));
+
           const { data: profile } = await supabase
             .from('users')
             .select('role')
@@ -85,7 +88,12 @@ function LoginForm() {
           } else if (profile?.role === 'driver') {
             router.push('/portal/driver');
           } else {
-            router.push('/portal/client');
+            // Fallback: check email for admin
+            if (signInData.user.email === 'capeload.za@gmail.com') {
+              router.push('/portal/admin');
+            } else {
+              router.push('/portal/client');
+            }
           }
         } else {
           router.push(redirect);
