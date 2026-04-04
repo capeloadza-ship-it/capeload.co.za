@@ -20,6 +20,8 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const redirect = searchParams.get('redirect') || '/';
+  const isDriver = redirect.includes('driver');
+  const isAdmin = redirect.includes('admin');
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -145,10 +147,13 @@ function LoginForm() {
 
       <div className={s.divider}>or</div>
 
-      <div className={s.tabs}>
-        <button className={`${s.tab} ${mode === 'signin' ? s.tabActive : ''}`} onClick={() => { setMode('signin'); setError(''); setSuccess(''); }}>Sign In</button>
-        <button className={`${s.tab} ${mode === 'signup' ? s.tabActive : ''}`} onClick={() => { setMode('signup'); setError(''); setSuccess(''); }}>Sign Up</button>
-      </div>
+      {/* Only show Sign Up tab for client login — drivers register via /driver-signup, admins don't sign up */}
+      {!isDriver && !isAdmin && (
+        <div className={s.tabs}>
+          <button className={`${s.tab} ${mode === 'signin' ? s.tabActive : ''}`} onClick={() => { setMode('signin'); setError(''); setSuccess(''); }}>Sign In</button>
+          <button className={`${s.tab} ${mode === 'signup' ? s.tabActive : ''}`} onClick={() => { setMode('signup'); setError(''); setSuccess(''); }}>Sign Up</button>
+        </div>
+      )}
 
       <form onSubmit={handleEmailAuth}>
         <div className={s.formGroup}>
@@ -168,7 +173,14 @@ function LoginForm() {
       {success && <div className={s.success}>{success}</div>}
 
       <div className={s.footer}>
-        <Link href="/">Back to home</Link>
+        {isDriver ? (
+          <>
+            <Link href="/driver-signup" style={{ display: 'block', marginBottom: 8 }}>Register Your Vehicle</Link>
+            <Link href="/">Back to home</Link>
+          </>
+        ) : (
+          <Link href="/">Back to home</Link>
+        )}
       </div>
     </div>
   );
