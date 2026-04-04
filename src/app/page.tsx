@@ -353,9 +353,8 @@ export default function Home() {
               <h4>Platform</h4>
               <Link href="/booking">Book a Load</Link>
               <Link href="/driver-signup">Register Vehicle</Link>
-              <Link href="/auth/login?redirect=/portal/client">Client Portal</Link>
-              <Link href="/auth/login?redirect=/portal/driver">Driver Portal</Link>
-              <Link href="/auth/login">Log In / Sign Up</Link>
+              <Link href="/auth/login?redirect=/portal/client">Client Login</Link>
+              <Link href="/auth/login?redirect=/portal/driver">Driver Login</Link>
             </div>
             <div className={styles.footerCol}>
               <h4>Company</h4>

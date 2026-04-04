@@ -112,8 +112,14 @@ function LoginForm() {
         <Image src="/images/logo-dark.png" alt="CapeLoad" width={140} height={48} style={{ height: 48, width: 'auto' }} />
       </Link>
 
-      <h1>{mode === 'signin' ? 'Sign in to CapeLoad' : 'Create your account'}</h1>
-      <p>{mode === 'signin' ? 'Access your dashboard and manage bookings.' : 'Get started with CapeLoad today.'}</p>
+      <h1>{mode === 'signin'
+        ? redirect.includes('driver') ? 'Driver Login' : redirect.includes('admin') ? 'Admin Login' : 'Client Login'
+        : 'Create your account'
+      }</h1>
+      <p>{mode === 'signin'
+        ? redirect.includes('driver') ? 'Access your fleet dashboard, jobs, and earnings.' : redirect.includes('admin') ? 'Admin access only.' : 'Track your bookings and manage deliveries.'
+        : 'Get started with CapeLoad today.'
+      }</p>
 
       <button
         className={s.googleBtn}

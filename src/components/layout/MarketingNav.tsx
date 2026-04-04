@@ -42,7 +42,8 @@ export default function MarketingNav() {
             <a href="#how-it-works" className={styles.navLink}>How it works</a>
             <a href="#coverage" className={styles.navLink}>Coverage</a>
             <a href="#get-started" className={styles.navLink}>Get started</a>
-            <Link href="/auth/login" className={styles.navLink}>Log in</Link>
+            <Link href="/auth/login?redirect=/portal/client" className={styles.navLink}>Client Login</Link>
+            <Link href="/auth/login?redirect=/portal/driver" className={styles.navLink}>Driver Login</Link>
             <div className={styles.navDivider} />
             <Link href="/booking" className={styles.navCta}>Get a Quote</Link>
           </div>
@@ -64,7 +65,8 @@ export default function MarketingNav() {
         <a href="#how-it-works" className={styles.mobileMenuLink} onClick={closeMobile}>How it works</a>
         <a href="#coverage" className={styles.mobileMenuLink} onClick={closeMobile}>Coverage</a>
         <a href="#get-started" className={styles.mobileMenuLink} onClick={closeMobile}>Get started</a>
-        <Link href="/auth/login" className={styles.mobileMenuLink} onClick={closeMobile}>Log in</Link>
+        <Link href="/auth/login?redirect=/portal/client" className={styles.mobileMenuLink} onClick={closeMobile}>Client Login</Link>
+        <Link href="/auth/login?redirect=/portal/driver" className={styles.mobileMenuLink} onClick={closeMobile}>Driver Login</Link>
         <Link href="/booking" className={styles.mobileMenuBtn} onClick={closeMobile}>Get a Quote</Link>
       </div>
     </>
